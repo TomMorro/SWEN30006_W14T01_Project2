@@ -13,14 +13,15 @@ public class ScoringStrategyFactory {
         }
         return instance;
     }
-
-    public RunScoringStrategy getRunScoringStrategy(int type){
-        return new RunScoringStrategy(type);
+    
+    public IScoringStrategy getCompositeScoringStrategy(String phase) {
+    	IScoringStrategy applicableStrategy = null;
+    	switch(phase) {
+    		case "play":
+    			applicableStrategy = new CompositePlayScoringStrategy();
+    			break;
+    	}
+    	return applicableStrategy;
     }
-
-    public PairScoringStrategy getPairScoringStrategy(int type){
-        return new PairScoringStrategy(type);
-    }
-
     
 }

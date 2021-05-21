@@ -13,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import cribbage.scoring.*;
 
 public class Cribbage extends CardGame {
 	static Cribbage cribbage;  // Provide access to singleton
@@ -246,6 +247,8 @@ private void play() {
 		} else {
 			s.lastPlayer = currentPlayer; // last Player to play a card in this segment
 			transfer(nextCard, s.segment);
+			scores[s.lastPlayer] += ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("play").getPoints(s.segment);
+			updateScore(s.lastPlayer);
 			if (total(s.segment) == thirtyone) {
 				// lastPlayer gets 2 points for a 31
 				s.newSegment = true;
@@ -261,6 +264,7 @@ private void play() {
 			segments.add(s.segment);
 			s.reset(segments);
 		}
+		
 	}
 }
 
