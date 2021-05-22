@@ -17,9 +17,12 @@ public class ScoringStrategyFactory {
     public IScoringStrategy getCompositeScoringStrategy(String phase) {
     	IScoringStrategy applicableStrategy = null;
     	switch(phase) {
-    		case "play":
+    		case "PLAY":
     			applicableStrategy = new CompositePlayScoringStrategy();
     			break;
+            case "SHOW":
+                applicableStrategy = new CompositeShowScoringStrategy();
+                break;
     	}
     	return applicableStrategy;
     }

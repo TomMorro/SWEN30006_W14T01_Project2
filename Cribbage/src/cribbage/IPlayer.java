@@ -27,6 +27,7 @@ public abstract class IPlayer {
             }
         // hand.draw(); Cribbage.delay(1000);
         Card s = selectToLay();
+            //   Inserts all cards of the given hand in the current hand (reference copy) and sets the hand of the cards to the current hand.
             hand.insert(unlayable, true);
             return s;
     }
