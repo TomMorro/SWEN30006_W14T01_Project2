@@ -250,7 +250,7 @@ private void play() {
 		} else {
 			s.lastPlayer = currentPlayer; // last Player to play a card in this segment
 			transfer(nextCard, s.segment);
-			scores[s.lastPlayer] += ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("play").getPoints(s.segment);
+			scores[s.lastPlayer] += ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("PLAY").getPoints(s.segment);
 			updateScore(s.lastPlayer);
 			if (total(s.segment) == thirtyone) {
 				// lastPlayer gets 2 points for a 31
@@ -267,7 +267,6 @@ private void play() {
 			segments.add(s.segment);
 			s.reset(segments);
 		}
-		
 	}
 }
 
@@ -286,6 +285,18 @@ void showHandsCrib() {
 	scores[1] += strategy.getPoints(showHands[1]);
 	updateScore(1);
 	// score crib (for dealer)
+
+// System.out.println(players[0].hand.getNumberOfCards());
+//	Hand non_dealer_hand = players[0].hand;
+//
+//
+//	scores[0] += ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("SHOW").getPoints(non_dealer_hand);
+//	updateScore(0);
+//
+//	IPlayer dealer = players[1];
+//	scores[1] += ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("SHOW").getPoints(dealer.hand);
+//	updateScore(1);
+
 }
 
   public Cribbage()

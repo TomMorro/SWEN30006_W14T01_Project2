@@ -1,5 +1,6 @@
 package cribbage.scoring;
 
+
 import ch.aplu.jcardgame.Card;
 import ch.aplu.jcardgame.Hand;
 
@@ -12,11 +13,13 @@ public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
         super.add(new PairScoringStrategy());
         //super.add(new FlushScoringStrategy());
         super.add(new JackScoringStrategy());
+
     }
 
     @Override
     public int getPoints(Hand cards) {
         int totalScore = 0;
+
 
 
         // get starter card located at the first index
@@ -32,6 +35,7 @@ public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
         cards.reverse(false);
         cards.insert(starter, false);
         cards.reverse(false);
+
 
         for (IScoringStrategy strategy : scoringStrategies) {
             totalScore += strategy.getPoints(cards);
