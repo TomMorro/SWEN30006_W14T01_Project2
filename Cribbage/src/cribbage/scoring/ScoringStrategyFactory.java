@@ -20,8 +20,15 @@ public class ScoringStrategyFactory {
     		case "play":
     			applicableStrategy = new CompositePlayScoringStrategy();
     			break;
+    		// case "show":
+    			// applicableStrategy = new CompositeShowScoringStrategy();
+    			// break;
     	}
     	return applicableStrategy;
+    }
+    
+    public IScoringStrategy getStarterScoringStrategy() {
+    	return new StarterScoringStrategy();
     }
     
 }
