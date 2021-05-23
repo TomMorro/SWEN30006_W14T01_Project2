@@ -20,9 +20,9 @@ public class ScoringStrategyFactory {
     		case "play":
     			applicableStrategy = new CompositePlayScoringStrategy();
     			break;
-    		// case "show":
-    			// applicableStrategy = new CompositeShowScoringStrategy();
-    			// break;
+            case "show":
+                applicableStrategy = new CompositeShowScoringStrategy();
+                break;
     	}
     	return applicableStrategy;
     }

@@ -272,8 +272,19 @@ private void play() {
 }
 
 void showHandsCrib() {
+	Hand[] showHands = new Hand[nPlayers];
+	int i = 0;
+	for (Hand hand: showHands) {
+		hand.insert(starter, false);
+		hand.insert(hands[i++], false);
+	}
+	IScoringStrategy strategy = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("show");
 	// score player 0 (non dealer)
+	scores[0] += strategy.getPoints(showHands[0]);
+	updateScore(0);
 	// score player 1 (dealer)
+	scores[1] += strategy.getPoints(showHands[1]);
+	updateScore(1);
 	// score crib (for dealer)
 }
 
