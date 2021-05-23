@@ -5,10 +5,9 @@ import ch.aplu.jcardgame.Hand;
 import cribbage.Cribbage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.lang.Math;
 
-public class PairScoringStrategy implements  IScoringStrategy{
+public class PairScoringStrategy implements IScoringStrategy{
     
     public PairScoringStrategy(){
     }

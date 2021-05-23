@@ -129,6 +129,7 @@ public class Cribbage extends CardGame {
   private final Hand[] hands = new Hand[nPlayers];
   private Hand starter;
   private Hand crib;
+  private int dealer = 1;
 
   public static void setStatus(String string) { cribbage.setStatusText(string); }
 
@@ -201,6 +202,8 @@ private void starter(Hand pack) {
 	Card dealt = randomCard(pack);
 	dealt.setVerso(false);
 	transfer(dealt, starter);
+	scores[dealer] += ScoringStrategyFactory.getInstance().getStarterScoringStrategy().getPoints(starter);
+	updateScore(dealer);
 }
 
 int total(Hand hand) {
@@ -268,8 +271,19 @@ private void play() {
 }
 
 void showHandsCrib() {
+	Hand[] showHands = new Hand[nPlayers];
+	int i = 0;
+	for (Hand hand: showHands) {
+		hand.insert(starter, false);
+		hand.insert(hands[i++], false);
+	}
+	IScoringStrategy strategy = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("show");
 	// score player 0 (non dealer)
+	scores[0] += strategy.getPoints(showHands[0]);
+	updateScore(0);
 	// score player 1 (dealer)
+	scores[1] += strategy.getPoints(showHands[1]);
+	updateScore(1);
 	// score crib (for dealer)
 
 // System.out.println(players[0].hand.getNumberOfCards());

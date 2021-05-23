@@ -21,10 +21,15 @@ public class ScoringStrategyFactory {
     			applicableStrategy = new CompositePlayScoringStrategy();
     			break;
             case "SHOW":
+
                 applicableStrategy = new CompositeShowScoringStrategy();
                 break;
     	}
     	return applicableStrategy;
+    }
+    
+    public IScoringStrategy getStarterScoringStrategy() {
+    	return new StarterScoringStrategy();
     }
     
 }
