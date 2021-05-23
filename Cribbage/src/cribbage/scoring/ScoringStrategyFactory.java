@@ -27,4 +27,8 @@ public class ScoringStrategyFactory {
     	return applicableStrategy;
     }
     
+    public IScoringStrategy getStarterScoringStrategy() {
+    	return new StarterScoringStrategy();
+    }
+    
 }
