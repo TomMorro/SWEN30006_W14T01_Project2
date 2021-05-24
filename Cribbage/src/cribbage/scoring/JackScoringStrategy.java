@@ -15,7 +15,7 @@ public class JackScoringStrategy implements IScoringStrategy{
         Cribbage.Suit starterSuit = (Cribbage.Suit) cardList.get(0).getSuit();
         // assume that jack scoring stacks
         int total = 0;
-        for(int i = 1; 1 < cardList.size(); i++){
+        for(int i = 1; i < cardList.size(); i++){
             if(cardList.get(i).getRank().equals(Cribbage.Rank.JACK) && cardList.get(i).getSuit().equals(starterSuit) ){
                 total++;
             }

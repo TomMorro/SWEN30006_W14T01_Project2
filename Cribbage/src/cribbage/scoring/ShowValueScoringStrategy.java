@@ -21,7 +21,7 @@ public class ShowValueScoringStrategy extends ValueScoringStrategy{
 		
 		for (counter = 0; counter < powerSetSize; counter++) {
 			for (i = 0; i < length; i++) {
-				if (String.format("%4s", Integer.toBinaryString(counter)).replace(" ", "0").charAt(i) == '1') {
+				if (String.format("%5s", Integer.toBinaryString(counter)).replace(" ", "0").charAt(i) == '1') {
 					Rank rank = (Cribbage.Rank) cardList.get(i).getRank();
 					subtotal += rank.value;
 				}

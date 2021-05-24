@@ -243,6 +243,9 @@ private void play() {
 			if (s.go) {
 				// Another "go" after previous one with no intervening cards
 				// lastPlayer gets 1 point for a "go"
+
+				scores[s.lastPlayer] += ScoringStrategyFactory.getInstance().getGoScoringStrategy().getPoints(s.segment);
+				updateScore(s.lastPlayer);
 				s.newSegment = true;
 			} else {
 				// currentPlayer says "go"
@@ -269,6 +272,7 @@ private void play() {
 			segments.add(s.segment);
 			s.reset(segments);
 		}
+		// Potentially call updateScore here 
 	}
 }
 
@@ -324,13 +328,15 @@ void showHandsCrib() {
 	  showHands[NONDEALER] = new Hand(deck);
 	  showHands[DEALER] = new Hand(deck);
 	  for (Hand hand: showHands) {
-	  	System.out.println(starter.getFirst().clone().toString());
 		  hand.insert(starter.getFirst().clone(), false);
 		  for(Card card : hands[i].getCardList()){
 			  hand.insert(card.clone(), false);
 		  }
 		  i++;
 	  }
+	  System.out.println(showHands[0]);
+	  System.out.println("-----");
+	  System.out.println(showHands[1]);
   }
 
   public static void main(String[] args)

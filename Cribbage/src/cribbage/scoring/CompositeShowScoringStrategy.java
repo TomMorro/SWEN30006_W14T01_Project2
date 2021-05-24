@@ -9,7 +9,7 @@ import ch.aplu.jcardgame.Hand;
 public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
     public CompositeShowScoringStrategy(){
         super();
-        super.add(new RunScoringStrategy());
+        // super.add(new RunScoringStrategy());
         super.add(new ShowPairScoringStrategy());
         super.add(new FlushScoringStrategy());
         super.add(new JackScoringStrategy());
@@ -38,7 +38,11 @@ public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
 
 
         for (IScoringStrategy strategy : scoringStrategies) {
-            totalScore += strategy.getPoints(cards);
+
+            int points = strategy.getPoints(cards);
+            totalScore += points;
+            System.out.println(points);
+
         }
 
         return totalScore;

@@ -31,5 +31,9 @@ public class ScoringStrategyFactory {
     public IScoringStrategy getStarterScoringStrategy() {
     	return new StarterScoringStrategy();
     }
+
+    public IScoringStrategy getGoScoringStrategy() {
+        return new GoScoringStrategy();
+    }
     
 }
