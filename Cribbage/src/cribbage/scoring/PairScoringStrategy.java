@@ -6,37 +6,62 @@ import cribbage.Cribbage;
 
 import java.util.ArrayList;
 import java.lang.Math;
+import java.util.Arrays;
 
-public class PairScoringStrategy implements IScoringStrategy{
-    
-    public PairScoringStrategy(){
-    }
+public abstract class PairScoringStrategy implements IScoringStrategy{
 
-    @Override
-    public int getPoints(Hand cards) {
-    	int i = Math.min(cards.getNumberOfCards(), 4);
+    public ArrayList<Hand[]> getAllPairs(Hand cards){
+        ArrayList<Hand[]> allPairs = new ArrayList<>();
+        boolean isInAllPairs;
 
-    	while (i > 1) {
-    		if (isValidPair(cards, i)){
-    			// Pair scoring strategy conversion
-                return i*i - i;
+        // get pair4
+        Hand[] pair4s = cards.extractQuads();
+        if(pair4s.length > 0) allPairs.add(pair4s);
+
+        // get pair3
+        Hand[] extractedPair3s = cards.extractTrips();
+        ArrayList<Hand> finalPair3sList = new ArrayList<>();
+        // we want to make sure that these pair3s are not in allPairs already
+        for(Hand pair3 : extractedPair3s){
+            isInAllPairs = false;
+            for(Hand pair4 : pair4s){
+                if(pair3.getFirst().getRank().equals(pair4.getFirst().getRank())){
+                    isInAllPairs = true;
+                    break;
+                }
             }
-    		i--;
-    	}
-    	
-        return 0;
-    }
-
-    private boolean isValidPair(Hand cards, int length){
-        ArrayList<Card> cardList = cards.getCardList();
-        Cribbage.Rank rank= (Cribbage.Rank) cardList.get(cardList.size() - 1).getRank();
-        
-        for(int i = cardList.size() - 2; i > cardList.size() - length - 1; i--){
-            Cribbage.Rank curRank= (Cribbage.Rank) cardList.get(i).getRank();
-            if(rank.order != curRank.order){
-                return false;
-            }
+            if (!isInAllPairs) finalPair3sList.add(pair3);
         }
-        return true;
+        Hand[] pair3s = new Hand[finalPair3sList.size()];
+        pair3s = finalPair3sList.toArray(pair3s);
+        allPairs.add(pair3s);
+
+
+        // get pair2
+        Hand[] extractedPair2s = cards.extractPairs();
+        ArrayList<Hand> finalPair2sList = new ArrayList<>();
+        // make sure that pair2 is not in allPairs already
+        for (Hand pair2 : extractedPair2s){
+            isInAllPairs = false;
+            for(Hand pair4 : pair4s){
+                if(pair2.getFirst().getRank().equals(pair4.getFirst().getRank())){
+                    isInAllPairs = true;
+                    break;
+                }
+            }
+            for(Hand pair3 : pair3s){
+                if(pair2.getFirst().getRank().equals(pair3.getFirst().getRank())){
+                    isInAllPairs = true;
+                    break;
+                }
+            }
+            if (!isInAllPairs) finalPair2sList.add(pair2);
+        }
+        Hand[] pair2s = new Hand[finalPair2sList.size()];
+        pair2s = finalPair2sList.toArray(pair2s);
+        allPairs.add(pair2s);
+
+
+        return allPairs;
     }
 }
