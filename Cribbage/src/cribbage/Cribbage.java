@@ -321,8 +321,9 @@ void showHandsCrib() {
 
   private void duplicateHands(){
 	  int i = 0;
+	  showHands[NONDEALER] = new Hand(deck);
+	  showHands[DEALER] = new Hand(deck);
 	  for (Hand hand: showHands) {
-		hand = new Hand(deck);
 	  	System.out.println(starter.getFirst().clone().toString());
 		  hand.insert(starter.getFirst().clone(), false);
 		  for(Card card : hands[i].getCardList()){
