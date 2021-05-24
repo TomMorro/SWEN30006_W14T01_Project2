@@ -127,9 +127,11 @@ public class Cribbage extends CardGame {
   private final Actor[] scoreActors = {null, null}; //, null, null };
   private final Location textLocation = new Location(350, 450);
   private final Hand[] hands = new Hand[nPlayers];
+  private final Hand[] showHands = new Hand[nPlayers];
   private Hand starter;
   private Hand crib;
-  private int dealer = 1;
+  private final int DEALER = 1;
+  private final int NONDEALER = 0;
 
   public static void setStatus(String string) { cribbage.setStatusText(string); }
 
@@ -202,8 +204,8 @@ private void starter(Hand pack) {
 	Card dealt = randomCard(pack);
 	dealt.setVerso(false);
 	transfer(dealt, starter);
-	scores[dealer] += ScoringStrategyFactory.getInstance().getStarterScoringStrategy().getPoints(starter);
-	updateScore(dealer);
+	scores[DEALER] += ScoringStrategyFactory.getInstance().getStarterScoringStrategy().getPoints(starter);
+	updateScore(DEALER);
 }
 
 int total(Hand hand) {
@@ -271,31 +273,20 @@ private void play() {
 }
 
 void showHandsCrib() {
-	Hand[] showHands = new Hand[nPlayers];
-	int i = 0;
-	for (Hand hand: showHands) {
-		hand.insert(starter, false);
-		hand.insert(hands[i++], false);
-	}
-	IScoringStrategy strategy = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("show");
+
+	IScoringStrategy strategy = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("SHOW");
 	// score player 0 (non dealer)
 	scores[0] += strategy.getPoints(showHands[0]);
 	updateScore(0);
 	// score player 1 (dealer)
-	scores[1] += strategy.getPoints(showHands[1]);
-	updateScore(1);
+	scores[DEALER] += strategy.getPoints(showHands[1]);
+	updateScore(DEALER);
 	// score crib (for dealer)
-
-// System.out.println(players[0].hand.getNumberOfCards());
-//	Hand non_dealer_hand = players[0].hand;
-//
-//
-//	scores[0] += ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("SHOW").getPoints(non_dealer_hand);
-//	updateScore(0);
-//
-//	IPlayer dealer = players[1];
-//	scores[1] += ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("SHOW").getPoints(dealer.hand);
-//	updateScore(1);
+	crib.reverse(false);
+	crib.insert(starter.getFirst().clone(), false);
+	crib.reverse(false);
+	scores[DEALER] += strategy.getPoints(crib);
+	updateScore(DEALER);
 
 }
 
@@ -319,12 +310,26 @@ void showHandsCrib() {
 	  deal(pack, hands);
 	  discardToCrib();
 	  starter(pack);
+	  duplicateHands();
 	  play();
 	  showHandsCrib();
 
     addActor(new Actor("sprites/gameover.gif"), textLocation);
     setStatusText("Game over.");
     refresh();
+  }
+
+  private void duplicateHands(){
+	  int i = 0;
+	  for (Hand hand: showHands) {
+		hand = new Hand(deck);
+	  	System.out.println(starter.getFirst().clone().toString());
+		  hand.insert(starter.getFirst().clone(), false);
+		  for(Card card : hands[i].getCardList()){
+			  hand.insert(card.clone(), false);
+		  }
+		  i++;
+	  }
   }
 
   public static void main(String[] args)

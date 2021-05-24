@@ -10,10 +10,10 @@ public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
     public CompositeShowScoringStrategy(){
         super();
         super.add(new RunScoringStrategy());
-        //super.add(new PairScoringStrategy());
+        super.add(new ShowPairScoringStrategy());
         super.add(new FlushScoringStrategy());
         super.add(new JackScoringStrategy());
-
+        super.add(new ShowValueScoringStrategy());
     }
 
     @Override

@@ -8,7 +8,7 @@ public class CompositePlayScoringStrategy extends CompositeScoringStrategy {
 		super();
 		super.add(new RunScoringStrategy());
 		super.add(new PlayPairScoringStrategy());
-
+		super.add(new PlayValueScoringStrategy());
 	}
 
 	@Override
