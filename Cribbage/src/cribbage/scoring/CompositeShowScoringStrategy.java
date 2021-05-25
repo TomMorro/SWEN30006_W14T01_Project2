@@ -10,11 +10,13 @@ import java.util.ArrayList;
 public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
     public CompositeShowScoringStrategy(){
         super();
+        // super.add(new ShowValueScoringStrategy());
         super.add(new ShowRunScoringStrategy());
         super.add(new ShowPairScoringStrategy());
 //        super.add(new FlushScoringStrategy());
         super.add(new JackScoringStrategy());
 //        super.add(new ShowValueScoringStrategy());
+        super.add(new FlushScoringStrategy());
     }
 
 
@@ -37,7 +39,7 @@ public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
 
         int i = 0;
 
-        String [] names = {"RUN", "PAIR", "FLUSH", "JACK", "VALUE"};
+        String [] names = {"VALUE", "RUN", "PAIR", "FLUSH", "JACK"};
 
         ArrayList<ScoringInstance> compositeScores = new ArrayList<>();
 
