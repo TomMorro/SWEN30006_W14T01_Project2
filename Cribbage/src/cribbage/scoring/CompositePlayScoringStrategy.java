@@ -2,23 +2,26 @@ package cribbage.scoring;
 
 import ch.aplu.jcardgame.Hand;
 
+import java.util.ArrayList;
+
 public class CompositePlayScoringStrategy extends CompositeScoringStrategy {
 	
 	public CompositePlayScoringStrategy() {
 		super();
 		super.add(new PlayRunScoringStrategy());
-		super.add(new PlayPairScoringStrategy());
-		super.add(new PlayValueScoringStrategy());
+//		super.add(new PlayPairScoringStrategy());
+//		super.add(new PlayValueScoringStrategy());
 	}
 
 	@Override
-	public int getPoints(Hand cards) {
-		int totalScore = 0;
-		
+	public ArrayList<ScoringInstance> getScores(Hand cards, int playerNumber) {
+
+		ArrayList<ScoringInstance> compositeScores = new ArrayList<>();
+
 		for (IScoringStrategy strategy : scoringStrategies) {
-			totalScore += strategy.getPoints(cards);
+			compositeScores.addAll(strategy.getScores(cards, playerNumber));
 		}
-		
-		return totalScore;
+
+		return compositeScores;
 	}
 }

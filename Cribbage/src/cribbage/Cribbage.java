@@ -244,7 +244,10 @@ private void play() {
 				// Another "go" after previous one with no intervening cards
 				// lastPlayer gets 1 point for a "go"
 
-				scores[s.lastPlayer] += ScoringStrategyFactory.getInstance().getGoScoringStrategy().getPoints(s.segment);
+				ArrayList<ScoringInstance> totalScoringInstances = ScoringStrategyFactory.getInstance().getGoScoringStrategy().getScores(s.segment, s.lastPlayer);
+
+
+				scores[s.lastPlayer] +=
 				updateScore(s.lastPlayer);
 				s.newSegment = true;
 			} else {

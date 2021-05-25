@@ -4,23 +4,22 @@ package cribbage.scoring;
 import ch.aplu.jcardgame.Card;
 import ch.aplu.jcardgame.Hand;
 
+import java.util.ArrayList;
 
 
 public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
     public CompositeShowScoringStrategy(){
         super();
         super.add(new ShowRunScoringStrategy());
-        super.add(new ShowPairScoringStrategy());
-        super.add(new FlushScoringStrategy());
-        super.add(new JackScoringStrategy());
-        super.add(new ShowValueScoringStrategy());
+//        super.add(new ShowPairScoringStrategy());
+//        super.add(new FlushScoringStrategy());
+//        super.add(new JackScoringStrategy());
+//        super.add(new ShowValueScoringStrategy());
     }
 
+
     @Override
-    public int getPoints(Hand cards) {
-        int totalScore = 0;
-
-
+    public ArrayList<ScoringInstance> getScores(Hand cards, int playerNumber) {
 
         // get starter card located at the first index
         Card starter = cards.getFirst();
@@ -40,15 +39,16 @@ public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
 
         String [] names = {"RUN", "PAIR", "FLUSH", "JACK", "VALUE"};
 
+        ArrayList<ScoringInstance> compositeScores = new ArrayList<>();
+
         System.out.println("--THE SHOW--");
         for (IScoringStrategy strategy : scoringStrategies) {
 
-            int points = strategy.getPoints(cards);
-            totalScore += points;
-            System.out.println(names[i] + ": " + points);
+            compositeScores.addAll(strategy.getScores(cards, playerNumber));
+
             i++;
         }
 
-        return totalScore;
+        return compositeScores;
     }
 }

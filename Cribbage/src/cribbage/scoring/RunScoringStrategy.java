@@ -10,7 +10,11 @@ import java.util.Collections;
 
 public abstract class RunScoringStrategy implements IScoringStrategy{
 
-    public abstract int getPoints(Hand cards);
+    protected final String rule = "RUN";
+
+    @Override
+    public abstract ArrayList<ScoringInstance> getScores(Hand cards, int playerNumber);
+
 
     /* Returns score for that length */
 //    int isValidRun(Hand cards, int length) {

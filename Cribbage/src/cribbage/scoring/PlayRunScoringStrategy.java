@@ -10,21 +10,6 @@ import java.util.Collections;
 
 public class PlayRunScoringStrategy extends RunScoringStrategy{
 
-
-    @Override
-    public int getPoints(Hand cards) {
-
-        int i = cards.getNumberOfCards();
-
-        while (i > 2) {
-            if (isValidRun(cards, i)){
-                return i;
-            }
-            i--;
-        }
-        return 0;
-    }
-
     private boolean isValidRun(Hand cards, int length){
         ArrayList<Card> cardList = cards.getCardList();
         ArrayList<Integer> buf = new ArrayList<>();
@@ -41,5 +26,29 @@ public class PlayRunScoringStrategy extends RunScoringStrategy{
             }
         }
         return true;
+    }
+
+    @Override
+    public ArrayList<ScoringInstance> getScores(Hand cards, int playerNumber) {
+        int i = cards.getNumberOfCards();
+        ArrayList<ScoringInstance> runScores = new ArrayList<>();
+        ArrayList<Card> cloneCards = new ArrayList<>();
+
+        while (i > 2) {
+            if (isValidRun(cards, i)){
+
+                for(int j = cards.getNumberOfCards() - 1; j > i; j--){
+
+                    cloneCards.add(cards.getCard(j));
+                }
+                System.out.println(cloneCards);
+
+                ScoringInstance curScore = new ScoringInstance(super.rule, cloneCards, playerNumber);
+                runScores.add(curScore);
+                return runScores;
+            }
+            i--;
+        }
+        return runScores;
     }
 }

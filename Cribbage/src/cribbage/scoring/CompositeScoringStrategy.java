@@ -9,6 +9,6 @@ public abstract class CompositeScoringStrategy implements IScoringStrategy {
 	public void add(IScoringStrategy strategy) {
 		scoringStrategies.add(strategy);
 	}
-	
-	public abstract int getPoints(Hand cards);
+
+	public abstract ArrayList<ScoringInstance> getScores(Hand cards, int playerNumber);
 }
