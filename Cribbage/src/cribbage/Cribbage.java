@@ -1,3 +1,4 @@
+
 package cribbage;
 
 // Cribbage.java
@@ -234,8 +235,8 @@ private void play() {
 				// Another "go" after previous one with no intervening cards
 				// lastPlayer gets 1 point for a "go"
 
-				totalScoringInstances = ScoringStrategyFactory.getInstance().getGoScoringStrategy().getScores(s.segment);
-				cribbageScorer.update(totalScoringInstances, s.lastPlayer);
+//				totalScoringInstances = ScoringStrategyFactory.getInstance().getGoScoringStrategy().getScores(s.segment);
+//				cribbageScorer.update(totalScoringInstances, s.lastPlayer);
 
 				s.newSegment = true;
 			} else {

@@ -20,3 +20,4 @@ public class GoScoringStrategy implements IScoringStrategy{
         return retList;
     }
 }
+
