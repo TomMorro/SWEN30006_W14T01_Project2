@@ -32,8 +32,8 @@ public class ScoringStrategyFactory {
 //    	return new StarterScoringStrategy();
 //    }
 //
-//    public IScoringStrategy getGoScoringStrategy() {
-//        return new GoScoringStrategy();
-//    }
+    public IScoringStrategy getGoScoringStrategy() {
+        return new GoScoringStrategy();
+    }
     
 }

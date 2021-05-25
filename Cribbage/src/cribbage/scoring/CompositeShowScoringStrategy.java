@@ -12,7 +12,7 @@ public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
         super();
         super.add(new ShowRunScoringStrategy());
 //        super.add(new ShowPairScoringStrategy());
-//        super.add(new FlushScoringStrategy());
+        super.add(new FlushScoringStrategy());
 //        super.add(new JackScoringStrategy());
 //        super.add(new ShowValueScoringStrategy());
     }
