@@ -280,10 +280,10 @@ void showHandsCrib() {
 
 	IScoringStrategy strategy = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("SHOW");
 	// score player 0 (non dealer)
-	scores[0] += strategy.getPoints(showHands[0]);
-	updateScore(0);
+	scores[NONDEALER] += strategy.getPoints(showHands[NONDEALER]);
+	updateScore(NONDEALER);
 	// score player 1 (dealer)
-	scores[DEALER] += strategy.getPoints(showHands[1]);
+	scores[DEALER] += strategy.getPoints(showHands[DEALER]);
 	updateScore(DEALER);
 	// score crib (for dealer)
 	crib.reverse(false);
@@ -334,9 +334,13 @@ void showHandsCrib() {
 		  }
 		  i++;
 	  }
-	  System.out.println(showHands[0]);
+	  System.out.println("Non Dealer Hand");
+	  System.out.println(showHands[NONDEALER]);
 	  System.out.println("-----");
-	  System.out.println(showHands[1]);
+	  System.out.println("Dealer Hand");
+	  System.out.println(showHands[DEALER]);
+	  System.out.println("Crib");
+	  System.out.println(crib);
   }
 
   public static void main(String[] args)

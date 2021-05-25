@@ -8,41 +8,20 @@ import cribbage.Cribbage.Rank;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class RunScoringStrategy implements IScoringStrategy{
+public abstract class RunScoringStrategy implements IScoringStrategy{
 
-    public RunScoringStrategy(){
-    }
+    public abstract int getPoints(Hand cards);
 
+    /* Returns score for that length */
+//    int isValidRun(Hand cards, int length) {
+//
+//        Hand[] sequence = cards.extractSequences(length);
+//        if (sequence.length > 0)  System.out.println(sequence.length + ": " + length + " Sequences");
+//        for (Hand h: sequence){
+//            System.out.println(h);
+//        }
+//
+//        return sequence.length * length ;
+//    }
 
-    @Override
-    public int getPoints(Hand cards) {
-    	int i = cards.getNumberOfCards();
-    	
-    	while (i > 2) {
-    		if (isValidRun(cards, i)){
-                return i;
-            }
-    		i--;
-    	}
-
-        return 0;
-    }
-
-    private boolean isValidRun(Hand cards, int length){
-        ArrayList<Card> cardList = cards.getCardList();
-        ArrayList<Integer> buf = new ArrayList<>();
-        int i;
-        for(i = cardList.size() - 1;i > cardList.size() - length - 1;i--){
-            Rank rank = (Cribbage.Rank) cardList.get(i).getRank();
-            buf.add(rank.order);
-        }
-        Collections.sort(buf);
-
-        for (int j = 0; j < buf.size() - 1; j++) {
-            if(buf.get(j) != buf.get(j+1) - 1){
-                return false;
-            }
-        }
-        return true;
-    }
 }

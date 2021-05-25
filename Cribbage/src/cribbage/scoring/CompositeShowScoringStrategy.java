@@ -9,7 +9,7 @@ import ch.aplu.jcardgame.Hand;
 public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
     public CompositeShowScoringStrategy(){
         super();
-        // super.add(new RunScoringStrategy());
+        super.add(new ShowRunScoringStrategy());
         super.add(new ShowPairScoringStrategy());
         super.add(new FlushScoringStrategy());
         super.add(new JackScoringStrategy());
@@ -36,13 +36,17 @@ public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
         cards.insert(starter, false);
         cards.reverse(false);
 
+        int i = 0;
 
+        String [] names = {"RUN", "PAIR", "FLUSH", "JACK", "VALUE"};
+
+        System.out.println("--THE SHOW--");
         for (IScoringStrategy strategy : scoringStrategies) {
 
             int points = strategy.getPoints(cards);
             totalScore += points;
-            System.out.println(points);
-
+            System.out.println(names[i] + ": " + points);
+            i++;
         }
 
         return totalScore;
