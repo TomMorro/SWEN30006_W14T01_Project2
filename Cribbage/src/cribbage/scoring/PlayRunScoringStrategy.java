@@ -29,7 +29,7 @@ public class PlayRunScoringStrategy extends RunScoringStrategy{
     }
 
     @Override
-    public ArrayList<ScoringInstance> getScores(Hand cards, int playerNumber) {
+    public ArrayList<ScoringInstance> getScores(Hand cards) {
         int i = cards.getNumberOfCards();
         ArrayList<ScoringInstance> runScores = new ArrayList<>();
         ArrayList<Card> cloneCards = new ArrayList<>();
@@ -43,7 +43,7 @@ public class PlayRunScoringStrategy extends RunScoringStrategy{
                 }
                 System.out.println(cloneCards);
 
-                ScoringInstance curScore = new ScoringInstance(super.rule, cloneCards, playerNumber);
+                ScoringInstance curScore = new ScoringInstance(super.rule, cloneCards, i);
                 runScores.add(curScore);
                 return runScores;
             }

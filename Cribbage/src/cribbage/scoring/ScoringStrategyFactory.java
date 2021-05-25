@@ -28,12 +28,12 @@ public class ScoringStrategyFactory {
     	return applicableStrategy;
     }
     
-    public IScoringStrategy getStarterScoringStrategy() {
-    	return new StarterScoringStrategy();
-    }
-
-    public IScoringStrategy getGoScoringStrategy() {
-        return new GoScoringStrategy();
-    }
+//    public IScoringStrategy getStarterScoringStrategy() {
+//    	return new StarterScoringStrategy();
+//    }
+//
+//    public IScoringStrategy getGoScoringStrategy() {
+//        return new GoScoringStrategy();
+//    }
     
 }

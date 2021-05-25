@@ -8,12 +8,12 @@ public class ScoringInstance {
 
     private final String rule;
     private ArrayList<Card> scoringCards;
-    private int player;
+    private int points;
 
-    public ScoringInstance(String rule, ArrayList<Card> scoringCards, int player) {
+    public ScoringInstance(String rule, ArrayList<Card> scoringCards, int points) {
         this.rule = rule;
         this.scoringCards = scoringCards;
-        this.player = player;
+        this.points = points;
     }
 
     public String getRule() {
@@ -24,7 +24,8 @@ public class ScoringInstance {
         return scoringCards;
     }
 
-    public int getPlayer() {
-        return player;
+
+    public int getPoints() {
+        return points;
     }
 }

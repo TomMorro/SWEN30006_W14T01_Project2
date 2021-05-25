@@ -6,5 +6,5 @@ import ch.aplu.jcardgame.Hand;
 import java.util.ArrayList;
 
 public interface IScoringStrategy {
-    public ArrayList<ScoringInstance> getScores(Hand cards, int playerNumber);
+    public ArrayList<ScoringInstance> getScores(Hand cards);
 }

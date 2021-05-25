@@ -13,7 +13,7 @@ public abstract class RunScoringStrategy implements IScoringStrategy{
     protected final String rule = "RUN";
 
     @Override
-    public abstract ArrayList<ScoringInstance> getScores(Hand cards, int playerNumber);
+    public abstract ArrayList<ScoringInstance> getScores(Hand cards);
 
 
     /* Returns score for that length */

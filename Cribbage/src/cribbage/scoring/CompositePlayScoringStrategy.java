@@ -14,12 +14,12 @@ public class CompositePlayScoringStrategy extends CompositeScoringStrategy {
 	}
 
 	@Override
-	public ArrayList<ScoringInstance> getScores(Hand cards, int playerNumber) {
+	public ArrayList<ScoringInstance> getScores(Hand cards) {
 
 		ArrayList<ScoringInstance> compositeScores = new ArrayList<>();
 
 		for (IScoringStrategy strategy : scoringStrategies) {
-			compositeScores.addAll(strategy.getScores(cards, playerNumber));
+			compositeScores.addAll(strategy.getScores(cards));
 		}
 
 		return compositeScores;

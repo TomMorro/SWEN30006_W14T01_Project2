@@ -19,7 +19,7 @@ public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
 
 
     @Override
-    public ArrayList<ScoringInstance> getScores(Hand cards, int playerNumber) {
+    public ArrayList<ScoringInstance> getScores(Hand cards) {
 
         // get starter card located at the first index
         Card starter = cards.getFirst();
@@ -44,7 +44,7 @@ public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
         System.out.println("--THE SHOW--");
         for (IScoringStrategy strategy : scoringStrategies) {
 
-            compositeScores.addAll(strategy.getScores(cards, playerNumber));
+            compositeScores.addAll(strategy.getScores(cards));
 
             i++;
         }

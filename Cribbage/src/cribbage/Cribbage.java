@@ -111,10 +111,7 @@ public class Cribbage extends CardGame {
 			  new Location(360, 75),
 			  new Location(360, 625)
 	  };
-  private final Location[] scoreLocations = {
-			  new Location(590, 25),
-			  new Location(590, 675)
-	  };
+
   private final Location[] segmentLocations = {  // need at most three as 3x31=93 > 2x4x10=80
 			new Location(150, 350),
 			new Location(400, 350),
@@ -124,7 +121,6 @@ public class Cribbage extends CardGame {
   private final Location cribLocation = new Location(700, 625);
   private final Location seedLocation = new Location(5, 25);
   // private final TargetArea cribTarget = new TargetArea(cribLocation, CardOrientation.NORTH, 1, true);
-  private final Actor[] scoreActors = {null, null}; //, null, null };
   private final Location textLocation = new Location(350, 450);
   private final Hand[] hands = new Hand[nPlayers];
   private final Hand[] showHands = new Hand[nPlayers];
@@ -133,27 +129,18 @@ public class Cribbage extends CardGame {
   private final int DEALER = 1;
   private final int NONDEALER = 0;
 
+  private Scorer cribbageScorer;
+
   public static void setStatus(String string) { cribbage.setStatusText(string); }
 
 static private final IPlayer[] players = new IPlayer[nPlayers];
-private final int[] scores = new int[nPlayers];
 
 final Font normalFont = new Font("Serif", Font.BOLD, 24);
 final Font bigFont = new Font("Serif", Font.BOLD, 36);
 
-private void initScore() {
-	 for (int i = 0; i < nPlayers; i++) {
-		 scores[i] = 0;
-		 scoreActors[i] = new TextActor("0", Color.WHITE, bgColor, bigFont);
-		 addActor(scoreActors[i], scoreLocations[i]);
-	 }
-  }
 
-private void updateScore(int player) {
-	removeActor(scoreActors[player]);
-	scoreActors[player] = new TextActor(String.valueOf(scores[player]), Color.WHITE, bgColor, bigFont);
-	addActor(scoreActors[player], scoreLocations[player]);
-}
+
+
 
 private void deal(Hand pack, Hand[] hands) {
 	for (int i = 0; i < nPlayers; i++) {
@@ -204,8 +191,8 @@ private void starter(Hand pack) {
 	Card dealt = randomCard(pack);
 	dealt.setVerso(false);
 	transfer(dealt, starter);
-	scores[DEALER] += ScoringStrategyFactory.getInstance().getStarterScoringStrategy().getPoints(starter);
-	updateScore(DEALER);
+
+
 }
 
 int total(Hand hand) {
@@ -236,6 +223,9 @@ private void play() {
 	int currentPlayer = 0; // Player 1 is dealer
 	Segment s = new Segment();
 	s.reset(segments);
+
+	ArrayList<ScoringInstance> totalScoringInstances;
+
 	while (!(players[0].emptyHand() && players[1].emptyHand())) {
 		// System.out.println("segments.size() = " + segments.size());
 		Card nextCard = players[currentPlayer].lay(thirtyone-total(s.segment));
@@ -244,11 +234,9 @@ private void play() {
 				// Another "go" after previous one with no intervening cards
 				// lastPlayer gets 1 point for a "go"
 
-				ArrayList<ScoringInstance> totalScoringInstances = ScoringStrategyFactory.getInstance().getGoScoringStrategy().getScores(s.segment, s.lastPlayer);
+//				totalScoringInstances = ScoringStrategyFactory.getInstance().getGoScoringStrategy().getScores(s.segment);
+//				cribbageScorer.update(totalScoringInstances, s.lastPlayer);
 
-
-				scores[s.lastPlayer] +=
-				updateScore(s.lastPlayer);
 				s.newSegment = true;
 			} else {
 				// currentPlayer says "go"
@@ -258,8 +246,10 @@ private void play() {
 		} else {
 			s.lastPlayer = currentPlayer; // last Player to play a card in this segment
 			transfer(nextCard, s.segment);
-			scores[s.lastPlayer] += ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("PLAY").getPoints(s.segment);
-			updateScore(s.lastPlayer);
+
+			totalScoringInstances = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("PLAY").getScores(s.segment);
+			cribbageScorer.update(totalScoringInstances, s.lastPlayer);
+
 			if (total(s.segment) == thirtyone) {
 				// lastPlayer gets 2 points for a 31
 				s.newSegment = true;
@@ -281,19 +271,25 @@ private void play() {
 
 void showHandsCrib() {
 
+	ArrayList<ScoringInstance> totalScoringInstances;
 	IScoringStrategy strategy = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("SHOW");
+
 	// score player 0 (non dealer)
-	scores[NONDEALER] += strategy.getPoints(showHands[NONDEALER]);
-	updateScore(NONDEALER);
+	totalScoringInstances = strategy.getScores(showHands[NONDEALER]);
+	cribbageScorer.update(totalScoringInstances, NONDEALER);
+
+
 	// score player 1 (dealer)
-	scores[DEALER] += strategy.getPoints(showHands[DEALER]);
-	updateScore(DEALER);
+	totalScoringInstances = strategy.getScores(showHands[DEALER]);
+	cribbageScorer.update(totalScoringInstances, DEALER);
+
 	// score crib (for dealer)
 	crib.reverse(false);
 	crib.insert(starter.getFirst().clone(), false);
 	crib.reverse(false);
-	scores[DEALER] += strategy.getPoints(crib);
-	updateScore(DEALER);
+
+	totalScoringInstances = strategy.getScores(crib);
+	cribbageScorer.update(totalScoringInstances, DEALER);
 
 }
 
@@ -303,7 +299,7 @@ void showHandsCrib() {
     cribbage = this;
     setTitle("Cribbage (V" + version + ") Constructed for UofM SWEN30006 with JGameGrid (www.aplu.ch)");
     setStatusText("Initializing...");
-    initScore();
+    this.cribbageScorer = new Scorer(cribbage);
 
 	  Hand pack = deck.toHand(false);
 	  RowLayout layout = new RowLayout(starterLocation, 0);
