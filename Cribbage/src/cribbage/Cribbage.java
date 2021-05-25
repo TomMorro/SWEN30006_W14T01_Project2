@@ -1,4 +1,3 @@
-
 package cribbage;
 
 // Cribbage.java
@@ -192,7 +191,7 @@ private void starter(Hand pack) {
 	Card dealt = randomCard(pack);
 	dealt.setVerso(false);
 	transfer(dealt, starter);
-
+	cribbageScorer.update(ScoringStrategyFactory.getInstance().getStarterScoringStrategy().getScores(starter), DEALER);
 
 }
 
@@ -388,3 +387,4 @@ void showHandsCrib() {
   }
 
 }
+

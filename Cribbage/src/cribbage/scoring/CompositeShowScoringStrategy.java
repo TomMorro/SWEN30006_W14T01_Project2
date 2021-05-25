@@ -10,12 +10,10 @@ import java.util.ArrayList;
 public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
     public CompositeShowScoringStrategy(){
         super();
-        // super.add(new ShowValueScoringStrategy());
+        super.add(new ShowValueScoringStrategy());
         super.add(new ShowRunScoringStrategy());
         super.add(new ShowPairScoringStrategy());
-//        super.add(new FlushScoringStrategy());
         super.add(new JackScoringStrategy());
-//        super.add(new ShowValueScoringStrategy());
         super.add(new FlushScoringStrategy());
     }
 
