@@ -192,7 +192,7 @@ private void starter(Hand pack) {
 	dealt.setVerso(false);
 	transfer(dealt, starter);
 
-
+	cribbageScorer.update(ScoringStrategyFactory.getInstance().getStarterScoringStrategy().getScores(starter), DEALER);
 }
 
 int total(Hand hand) {
