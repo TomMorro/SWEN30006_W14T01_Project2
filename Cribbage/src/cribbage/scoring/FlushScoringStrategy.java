@@ -33,13 +33,13 @@ public class FlushScoringStrategy implements IScoringStrategy{
 
         // If the starter card is the same suit
         if(cardList.get(0).getSuitId() == suitID){
-            scoringInstance = new ScoringInstance(rule, cardList, 5);
+            scoringInstance = new ScoringInstance(rule + 5, cardList, 5);
 
         }
         else {
             cardList.remove(0);
             
-            scoringInstance = new ScoringInstance(rule, cardList, 4);
+            scoringInstance = new ScoringInstance(rule + 4, cardList, 4);
         }
         retList.add(scoringInstance);
         return retList;
