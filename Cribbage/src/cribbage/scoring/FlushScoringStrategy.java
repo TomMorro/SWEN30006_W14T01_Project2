@@ -6,42 +6,47 @@ import cribbage.Cribbage;
 
 import java.util.ArrayList;
 
-public class FlushScoringStrategy implements IScoringStrategy{
+public class FlushScoringStrategy implements IScoringStrategy {
 
     private final String rule = "flush";
 
     @Override
     public ArrayList<ScoringInstance> getScores(Hand cards) {
 
-        ArrayList<Card> cardList = cards.getCardList();
-
         ArrayList<ScoringInstance> retList = new ArrayList<>();
         ScoringInstance scoringInstance;
 
-        // suitID of second card that will be compared to
-        int suitID = cardList.get(1).getSuitId();
+        Card starterCard = cards.getFirst();
+        Hand newHand = new Hand(starterCard.getDeck());
 
-        // Iterate through all of the cards except the 1st card (starter card) and the 2nd card (card that we are comparing to)
-        for(int i = 2; i < cards.getNumberOfCards(); i++){
-            Card curCard = cardList.get(i);
+        for (Card card : cards.getCardList()) {
+            newHand.insert(card.clone(), false);
+        }
 
-            // If the suitID is not the same as the second card, there is no flush
-            if (curCard.getSuitId() != suitID){
-                return retList;
+        for (Cribbage.Suit suit : Cribbage.Suit.values()) {
+
+            Hand tempHand = cards.extractCardsWithSuit(suit);
+
+            if (tempHand.getNumberOfCards() >= 4) {
+                if (starterCard.getSuit() == tempHand.get(0).getSuit()) {
+
+                    tempHand.reverse(false);
+                    tempHand.insert(starterCard, false);
+                    tempHand.reverse(false);
+
+                    scoringInstance = new ScoringInstance(rule, tempHand, 5);
+                    retList.add(scoringInstance);
+                    return retList;
+
+                } else {
+
+                    scoringInstance = new ScoringInstance(rule, tempHand, 4);
+                    retList.add(scoringInstance);
+                    return retList;
+                }
             }
         }
 
-        // If the starter card is the same suit
-        if(cardList.get(0).getSuitId() == suitID){
-            scoringInstance = new ScoringInstance(rule, cardList, 5);
-
-        }
-        else {
-            cardList.remove(0);
-            
-            scoringInstance = new ScoringInstance(rule, cardList, 4);
-        }
-        retList.add(scoringInstance);
         return retList;
     }
 }
