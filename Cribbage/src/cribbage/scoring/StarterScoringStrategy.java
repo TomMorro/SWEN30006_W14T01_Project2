@@ -7,7 +7,7 @@ import cribbage.Cribbage;
 
 public class StarterScoringStrategy implements IScoringStrategy {
 	private int jackScore = 2;
-	private String rule = "STARTER";
+	private String rule = "starter";
 
 	public StarterScoringStrategy() {
 	}
@@ -18,7 +18,7 @@ public class StarterScoringStrategy implements IScoringStrategy {
 		ArrayList<ScoringInstance> starterScore = new ArrayList<>();
 
 		if (cards.get(0).getRank() == Cribbage.Rank.JACK) {
-			ScoringInstance curScore = new ScoringInstance(rule, cards.getCardList(), jackScore);
+			ScoringInstance curScore = new ScoringInstance(rule, cards, jackScore);
 			starterScore.add(curScore);
 		}
 		return starterScore;

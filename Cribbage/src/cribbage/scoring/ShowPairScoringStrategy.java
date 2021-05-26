@@ -24,7 +24,7 @@ public class ShowPairScoringStrategy extends PairScoringStrategy{
         ArrayList<Hand[]> allPairs = getAllPairs(cards);
         for(Hand[] pairs : allPairs){
             for(Hand pair : pairs){
-                scores.add(new ScoringInstance(this.rule, pair.getCardList(), pair.getNumberOfCards() * pair.getNumberOfCards() - pair.getNumberOfCards()));
+                scores.add(new ScoringInstance(this.rule + pair.getNumberOfCards(), pair, pair.getNumberOfCards() * pair.getNumberOfCards() - pair.getNumberOfCards()));
             }
         }
         return scores;

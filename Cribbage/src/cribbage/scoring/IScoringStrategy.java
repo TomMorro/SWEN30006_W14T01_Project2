@@ -7,4 +7,7 @@ import java.util.ArrayList;
 
 public interface IScoringStrategy {
     public ArrayList<ScoringInstance> getScores(Hand cards);
+
+
+
 }

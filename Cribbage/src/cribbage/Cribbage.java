@@ -129,7 +129,11 @@ public class Cribbage extends CardGame {
   private final int DEALER = 1;
   private final int NONDEALER = 0;
 
-  private Scorer cribbageScorer;
+  // Used for logging the actions taken in the game
+  private Logger logger;
+
+  // Store the properties
+  private static Properties cribbageProperties;
 
   public static void setStatus(String string) { cribbage.setStatusText(string); }
 
@@ -163,6 +167,7 @@ private void deal(Hand pack, Hand[] hands) {
 	dealingOut(pack, hands);
 	for (int i = 0; i < nPlayers; i++) {
 		hands[i].sort(Hand.SortType.POINTPRIORITY, true);
+		logger.logDeal(hands[i],i);
 	}
 	layouts[0].setStepDelay(0);
 }
@@ -175,9 +180,13 @@ private void discardToCrib() {
 	// crib.setTargetArea(cribTarget);
 	crib.draw();
 	for (IPlayer player: players) {
+		Hand discards = new Hand(deck);
 		for (int i = 0; i < nDiscards; i++) {
-			transfer(player.discard(), crib);
+			Card discard = player.discard();
+			discards.insert(discard.clone(), false);
+			transfer(discard, crib);
 		}
+		logger.logDiscard(discards, player.id);
 		crib.sort(Hand.SortType.POINTPRIORITY, true);
 	}
 }
@@ -191,7 +200,8 @@ private void starter(Hand pack) {
 	Card dealt = randomCard(pack);
 	dealt.setVerso(false);
 	transfer(dealt, starter);
-	cribbageScorer.update(ScoringStrategyFactory.getInstance().getStarterScoringStrategy().getScores(starter), DEALER);
+	logger.logStarter(starter.getFirst());
+	logger.update(ScoringStrategyFactory.getInstance().getStarterScoringStrategy().getScores(starter), DEALER, "STARTER");
 
 }
 
@@ -234,8 +244,8 @@ private void play() {
 				// Another "go" after previous one with no intervening cards
 				// lastPlayer gets 1 point for a "go"
 
-//				totalScoringInstances = ScoringStrategyFactory.getInstance().getGoScoringStrategy().getScores(s.segment);
-//				cribbageScorer.update(totalScoringInstances, s.lastPlayer);
+				totalScoringInstances = ScoringStrategyFactory.getInstance().getGoScoringStrategy().getScores(s.segment);
+				logger.update(totalScoringInstances, s.lastPlayer, "PLAY");
 
 				s.newSegment = true;
 			} else {
@@ -246,9 +256,10 @@ private void play() {
 		} else {
 			s.lastPlayer = currentPlayer; // last Player to play a card in this segment
 			transfer(nextCard, s.segment);
+			logger.logPlay(s.segment, s.lastPlayer);
 
 			totalScoringInstances = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("PLAY").getScores(s.segment);
-			cribbageScorer.update(totalScoringInstances, s.lastPlayer);
+			logger.update(totalScoringInstances, s.lastPlayer, "PLAY");
 
 			if (total(s.segment) == thirtyone) {
 				// lastPlayer gets 2 points for a 31
@@ -270,26 +281,29 @@ private void play() {
 }
 
 void showHandsCrib() {
-
+	String phase = "SHOW";
 	ArrayList<ScoringInstance> totalScoringInstances;
 	IScoringStrategy strategy = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("SHOW");
 
 	// score player 0 (non dealer)
+	logger.logShow(showHands[NONDEALER], NONDEALER);
 	totalScoringInstances = strategy.getScores(showHands[NONDEALER]);
-	cribbageScorer.update(totalScoringInstances, NONDEALER);
+	logger.update(totalScoringInstances, NONDEALER, phase);
 
 
 	// score player 1 (dealer)
+	logger.logShow(showHands[DEALER], DEALER);
 	totalScoringInstances = strategy.getScores(showHands[DEALER]);
-	cribbageScorer.update(totalScoringInstances, DEALER);
+	logger.update(totalScoringInstances, DEALER, phase);
 
 	// score crib (for dealer)
 	crib.reverse(false);
 	crib.insert(starter.getFirst().clone(), false);
 	crib.reverse(false);
 
+	logger.logShow(crib, DEALER);
 	totalScoringInstances = strategy.getScores(crib);
-	cribbageScorer.update(totalScoringInstances, DEALER);
+	logger.update(totalScoringInstances, DEALER, phase);
 
 }
 
@@ -299,7 +313,8 @@ void showHandsCrib() {
     cribbage = this;
     setTitle("Cribbage (V" + version + ") Constructed for UofM SWEN30006 with JGameGrid (www.aplu.ch)");
     setStatusText("Initializing...");
-    this.cribbageScorer = new Scorer(cribbage);
+    this.logger = new Logger(cribbage);
+	logger.logGameStart(cribbageProperties.getProperty("Player0"), cribbageProperties.getProperty("Player1"));
 
 	  Hand pack = deck.toHand(false);
 	  RowLayout layout = new RowLayout(starterLocation, 0);
@@ -316,6 +331,7 @@ void showHandsCrib() {
 	  duplicateHands();
 	  play();
 	  showHandsCrib();
+	  logger.close();
 
     addActor(new Actor("sprites/gameover.gif"), textLocation);
     setStatusText("Game over.");
@@ -335,19 +351,25 @@ void showHandsCrib() {
 	  }
 	  System.out.println("Non Dealer Hand");
 	  System.out.println(showHands[NONDEALER]);
+
 	  System.out.println("-----");
 	  System.out.println("Dealer Hand");
 	  System.out.println(showHands[DEALER]);
+
+	  System.out.println("-----");
 	  System.out.println("Crib");
 	  System.out.println(crib);
   }
+
+
+
 
   public static void main(String[] args)
 		  throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
 		  	InstantiationException, IllegalAccessException {
 	  /* Handle Properties */
 	  // System.out.println("Working Directory = " + System.getProperty("user.dir"));
-	  Properties cribbageProperties = new Properties();
+	  cribbageProperties = new Properties();
 	  // Default properties
 	  cribbageProperties.setProperty("Animate", "true");
 	  cribbageProperties.setProperty("Player0", "cribbage.RandomPlayer");

@@ -35,18 +35,12 @@ public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
         cards.insert(starter, false);
         cards.reverse(false);
 
-        int i = 0;
-
-        String [] names = {"VALUE", "RUN", "PAIR", "FLUSH", "JACK"};
-
         ArrayList<ScoringInstance> compositeScores = new ArrayList<>();
 
-        System.out.println("--THE SHOW--");
         for (IScoringStrategy strategy : scoringStrategies) {
 
             compositeScores.addAll(strategy.getScores(cards));
 
-            i++;
         }
 
         return compositeScores;
