@@ -32,9 +32,7 @@ public class ShowValueScoringStrategy extends ValueScoringStrategy {
 				valueScores.add(curScore);
 			}
 		}
-		for (ScoringInstance score : valueScores) {
-			System.out.println("Hey" + score.getScoringCards());
-		}
+
 		return valueScores;
 	}
 }

@@ -253,6 +253,7 @@ private void play() {
 		} else {
 			s.lastPlayer = currentPlayer; // last Player to play a card in this segment
 			transfer(nextCard, s.segment);
+			logger.logPlay(s.segment, s.lastPlayer);
 
 			totalScoringInstances = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("PLAY").getScores(s.segment);
 			logger.update(totalScoringInstances, s.lastPlayer, "PLAY");
