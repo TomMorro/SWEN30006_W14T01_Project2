@@ -64,4 +64,8 @@ public class Logger{
         log.println(player1 + ",P1");
 
     }
+
+    public void logDeal(Hand hand, int playerNumber){
+        log.println("deal,P" + playerNumber +"," + cribbageGame.canonical(hand));
+    }
 }
