@@ -24,16 +24,17 @@ public class ShowValueScoringStrategy extends ValueScoringStrategy {
 				if (String.format("%5s", Integer.toBinaryString(counter)).replace(" ", "0").charAt(i) == '1') {
 					Rank rank = (Cribbage.Rank) cardList.get(i).getRank();
 					subtotal += rank.value;
-					possibleFifteen.add(cards.getCard(i));
+					possibleFifteen.add(cardList.get(i));
 				}
 			}
-
 			if (subtotal == fifteen) {
 				ScoringInstance curScore = new ScoringInstance(super.fifteenRule, possibleFifteen, super.value);
 				valueScores.add(curScore);
 			}
 		}
-		
+		for (ScoringInstance score : valueScores) {
+			System.out.println("Hey" + score.getScoringCards());
+		}
 		return valueScores;
 	}
 }

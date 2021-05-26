@@ -27,9 +27,6 @@ public class FlushScoringStrategy implements IScoringStrategy{
 
             // If the suitID is not the same as the second card, there is no flush
             if (curCard.getSuitId() != suitID){
-
-                scoringInstance = new ScoringInstance(rule, cardList, 0);
-                retList.add(scoringInstance);
                 return retList;
             }
         }
