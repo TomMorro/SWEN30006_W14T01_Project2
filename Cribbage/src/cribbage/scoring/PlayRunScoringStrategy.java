@@ -34,7 +34,7 @@ public class PlayRunScoringStrategy extends RunScoringStrategy{
         ArrayList<ScoringInstance> runScores = new ArrayList<>();
         // ArrayList<Card> cloneCards = new ArrayList<>();
 
-        Hand newHand = new Hand(cards.getCard(0).getDeck());
+        Hand newHand = new Hand(cards.get(0).getDeck());
 
         while (i > 2) {
             if (isValidRun(cards, i)){
