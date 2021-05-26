@@ -7,6 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import ch.aplu.jcardgame.*;
 
 public class Logger{
@@ -27,6 +29,10 @@ public class Logger{
     // update scores
     public void update(ArrayList<ScoringInstance> scoringInstanceList, int playerNumber, String phase) {
         int score;
+
+        Collections.sort(scoringInstanceList);
+
+
         for(ScoringInstance scoringInstance : scoringInstanceList){
             System.out.println(scoringInstance.getRule()+ ":" + scoringInstance.getScoringHand());
             score = scorer.update(scoringInstance, playerNumber);
