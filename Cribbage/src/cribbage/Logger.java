@@ -55,4 +55,13 @@ public class Logger{
     	log.println("play,P" + playerNumber + "," + total + "," + 
     			cribbageGame.canonical(segment.getLast()));
     }
+
+    public void logGameStart(String player0, String player1){
+
+        log.println("seed," + Cribbage.SEED);
+
+        log.println(player0 + ",P0");
+        log.println(player1 + ",P1");
+
+    }
 }

@@ -37,6 +37,8 @@ public class FlushScoringStrategy implements IScoringStrategy{
 
         }
         else {
+            cardList.remove(0);
+            
             scoringInstance = new ScoringInstance(rule, cardList, 4);
         }
         retList.add(scoringInstance);

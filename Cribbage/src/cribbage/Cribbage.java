@@ -136,7 +136,11 @@ public class Cribbage extends CardGame {
   private final int DEALER = 1;
   private final int NONDEALER = 0;
 
+  // Used for logging the actions taken in the game
   private Logger logger;
+
+  // Store the properties
+  private static Properties cribbageProperties;
 
   public static void setStatus(String string) { cribbage.setStatusText(string); }
 
@@ -308,6 +312,7 @@ void showHandsCrib() {
     setTitle("Cribbage (V" + version + ") Constructed for UofM SWEN30006 with JGameGrid (www.aplu.ch)");
     setStatusText("Initializing...");
     this.logger = new Logger(cribbage);
+	logger.logGameStart(cribbageProperties.getProperty("Player0"), cribbageProperties.getProperty("Player1"));
 
 	  Hand pack = deck.toHand(false);
 	  RowLayout layout = new RowLayout(starterLocation, 0);
@@ -344,9 +349,12 @@ void showHandsCrib() {
 	  }
 	  System.out.println("Non Dealer Hand");
 	  System.out.println(showHands[NONDEALER]);
+
 	  System.out.println("-----");
 	  System.out.println("Dealer Hand");
 	  System.out.println(showHands[DEALER]);
+
+	  System.out.println("-----");
 	  System.out.println("Crib");
 	  System.out.println(crib);
   }
@@ -356,7 +364,7 @@ void showHandsCrib() {
 		  	InstantiationException, IllegalAccessException {
 	  /* Handle Properties */
 	  // System.out.println("Working Directory = " + System.getProperty("user.dir"));
-	  Properties cribbageProperties = new Properties();
+	  cribbageProperties = new Properties();
 	  // Default properties
 	  cribbageProperties.setProperty("Animate", "true");
 	  cribbageProperties.setProperty("Player0", "cribbage.RandomPlayer");
