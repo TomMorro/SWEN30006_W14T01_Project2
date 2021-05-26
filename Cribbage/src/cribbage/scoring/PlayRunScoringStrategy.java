@@ -43,7 +43,7 @@ public class PlayRunScoringStrategy extends RunScoringStrategy{
                 }
                 System.out.println(cloneCards);
 
-                ScoringInstance curScore = new ScoringInstance(super.rule, cloneCards, i);
+                ScoringInstance curScore = new ScoringInstance(super.rule + i, cloneCards, i);
                 runScores.add(curScore);
                 return runScores;
             }

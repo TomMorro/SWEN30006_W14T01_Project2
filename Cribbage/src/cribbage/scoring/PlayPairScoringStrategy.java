@@ -58,7 +58,7 @@ public class PlayPairScoringStrategy extends PairScoringStrategy{
                 for(Hand pair : allPairs.get(i)){
                     // if the lastCard forms a pair, then we return
                     if(pair.contains(lastCard) && isValidPair(cards, pair)){
-                        scores.add(new ScoringInstance(super.rule, pair.getCardList(),pair.getNumberOfCards() * pair.getNumberOfCards() - pair.getNumberOfCards()));
+                        scores.add(new ScoringInstance(super.rule + pair.getNumberOfCards(), pair.getCardList(),pair.getNumberOfCards() * pair.getNumberOfCards() - pair.getNumberOfCards()));
                         return scores;
                     }
                 }

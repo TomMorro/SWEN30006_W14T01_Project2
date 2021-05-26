@@ -7,7 +7,7 @@ import cribbage.Cribbage;
 
 public class StarterScoringStrategy implements IScoringStrategy {
 	private int jackScore = 2;
-	private String rule = "STARTER";
+	private String rule = "starter";
 
 	public StarterScoringStrategy() {
 	}

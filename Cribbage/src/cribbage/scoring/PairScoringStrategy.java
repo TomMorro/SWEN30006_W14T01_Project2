@@ -9,7 +9,8 @@ import java.lang.Math;
 import java.util.Arrays;
 
 public abstract class PairScoringStrategy implements IScoringStrategy{
-    String rule = "PAIR";
+    String rule = "pair";
+    
     public ArrayList<Hand[]> getAllPairs(Hand cards){
         ArrayList<Hand[]> allPairs = new ArrayList<>();
         boolean isInAllPairs;

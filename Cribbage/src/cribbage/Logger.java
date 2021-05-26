@@ -33,7 +33,7 @@ public class Logger{
             log.print("score,P" + playerNumber + "," + score + "," + scoringInstance.getPoints()+ ","
                     + scoringInstance.getRule());
             if(phase.equals("SHOW")){
-                log.println(cribbageGame.canonical(scoringInstance.getScoringCards()));
+                log.println("," + cribbageGame.canonical(scoringInstance.getScoringCards()));
             }
             else {
             	log.println();
@@ -63,5 +63,9 @@ public class Logger{
         log.println(player0 + ",P0");
         log.println(player1 + ",P1");
 
+    }
+    
+    public void logStarter(Card starter) {
+    	log.println("starter," + cribbageGame.canonical(starter));
     }
 }

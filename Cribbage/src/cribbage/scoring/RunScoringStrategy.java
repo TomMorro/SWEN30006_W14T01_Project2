@@ -10,7 +10,7 @@ import java.util.Collections;
 
 public abstract class RunScoringStrategy implements IScoringStrategy{
 
-    protected final String rule = "RUN";
+    protected final String rule = "run";
 
     @Override
     public abstract ArrayList<ScoringInstance> getScores(Hand cards);

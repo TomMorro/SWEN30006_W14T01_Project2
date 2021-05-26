@@ -202,6 +202,7 @@ private void starter(Hand pack) {
 	Card dealt = randomCard(pack);
 	dealt.setVerso(false);
 	transfer(dealt, starter);
+	logger.logStarter(starter.getFirst());
 	logger.update(ScoringStrategyFactory.getInstance().getStarterScoringStrategy().getScores(starter), DEALER, "STARTER");
 
 }
