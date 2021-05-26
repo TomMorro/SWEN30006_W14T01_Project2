@@ -174,6 +174,7 @@ private void deal(Hand pack, Hand[] hands) {
 	dealingOut(pack, hands);
 	for (int i = 0; i < nPlayers; i++) {
 		hands[i].sort(Hand.SortType.POINTPRIORITY, true);
+		logger.logDeal(hands[i],i);
 	}
 	layouts[0].setStepDelay(0);
 }
