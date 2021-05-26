@@ -187,9 +187,13 @@ private void discardToCrib() {
 	// crib.setTargetArea(cribTarget);
 	crib.draw();
 	for (IPlayer player: players) {
+		ArrayList<Card> discards = new ArrayList<>();
 		for (int i = 0; i < nDiscards; i++) {
-			transfer(player.discard(), crib);
+			Card discard = player.discard();
+			discards.add(discard);
+			transfer(discard, crib);
 		}
+		logger.logDiscard(discards, player.id);
 		crib.sort(Hand.SortType.POINTPRIORITY, true);
 	}
 }
