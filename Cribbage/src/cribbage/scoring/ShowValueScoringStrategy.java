@@ -28,11 +28,17 @@ public class ShowValueScoringStrategy extends ValueScoringStrategy {
 				}
 			}
 			if (subtotal == fifteen) {
-				ScoringInstance curScore = new ScoringInstance(super.fifteenRule, possibleFifteen, super.value);
+				Hand newHand = new Hand(possibleFifteen.get(0).getDeck());
+				
+				for(Card card : possibleFifteen){
+					  newHand.insert(card.clone(), false);
+				  }
+				ScoringInstance curScore = new ScoringInstance(super.fifteenRule, newHand, super.value);
 				valueScores.add(curScore);
 			}
 		}
 
 		return valueScores;
+		
 	}
 }

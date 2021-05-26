@@ -293,11 +293,13 @@ void showHandsCrib() {
 	IScoringStrategy strategy = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("SHOW");
 
 	// score player 0 (non dealer)
+	logger.logShow(showHands[NONDEALER], NONDEALER);
 	totalScoringInstances = strategy.getScores(showHands[NONDEALER]);
 	logger.update(totalScoringInstances, NONDEALER, phase);
 
 
 	// score player 1 (dealer)
+	logger.logShow(showHands[DEALER], DEALER);
 	totalScoringInstances = strategy.getScores(showHands[DEALER]);
 	logger.update(totalScoringInstances, DEALER, phase);
 
@@ -306,6 +308,7 @@ void showHandsCrib() {
 	crib.insert(starter.getFirst().clone(), false);
 	crib.reverse(false);
 
+	logger.logShow(crib, DEALER);
 	totalScoringInstances = strategy.getScores(crib);
 	logger.update(totalScoringInstances, DEALER, phase);
 
