@@ -39,7 +39,7 @@ public class JackScoringStrategy implements IScoringStrategy{
                 jackedCards.add(cardList.get(i));
             }
         }
-        scores.add(new ScoringInstance("JACK", jackedCards, total));
+        if(total>0) scores.add(new ScoringInstance("JACK", jackedCards, total));
         return scores;
     }
 }

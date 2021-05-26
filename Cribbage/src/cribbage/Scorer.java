@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static cribbage.Cribbage.nPlayers;
 
 
-public class Scorer implements Subscriber {
+public class Scorer{
 
     private final int[] scores = new int[nPlayers];
     private final Location[] scoreLocations = {
@@ -29,18 +29,10 @@ public class Scorer implements Subscriber {
         initScore();
     }
 
-    @Override
-    public void update(ArrayList<ScoringInstance> scoringInstanceList, int playerNumber) {
-
-        int totalScore = 0;
-
-        for(ScoringInstance curScoringInstance: scoringInstanceList){
-
-            totalScore += curScoringInstance.getPoints();
-
-        }
-        scores[playerNumber] += totalScore;
+    public int update(ScoringInstance scoringInstance, int playerNumber) {
+        scores[playerNumber] += scoringInstance.getPoints();
         updateScore(playerNumber);
+        return scores[playerNumber];
     }
 
     private void initScore() {

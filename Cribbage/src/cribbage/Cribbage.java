@@ -58,6 +58,13 @@ public class Cribbage extends CardGame {
 		return "[" + h1.getCardList().stream().map(this::canonical).collect(Collectors.joining(",")) + "]";
     }
 
+    String canonical(ArrayList<Card> ac){
+		Hand h1 = new Hand(deck); // Clone to sort without changing the original hand
+		for (Card C: ac) h1.insert(C.getSuit(), C.getRank(), false);
+		h1.sort(Hand.SortType.POINTPRIORITY, false);
+		return "[" + h1.getCardList().stream().map(this::canonical).collect(Collectors.joining(",")) + "]";
+	}
+
 	class MyCardValues implements Deck.CardValues { // Need to generate a unique value for every card
 		public int[] values(Enum suit) {  // Returns the value for each card in the suit
 			return Stream.of(Rank.values()).mapToInt(r -> (((Rank) r).order-1)*(Suit.values().length)+suit.ordinal()).toArray();
@@ -129,7 +136,7 @@ public class Cribbage extends CardGame {
   private final int DEALER = 1;
   private final int NONDEALER = 0;
 
-  private Scorer cribbageScorer;
+  private Logger logger;
 
   public static void setStatus(String string) { cribbage.setStatusText(string); }
 
@@ -191,7 +198,7 @@ private void starter(Hand pack) {
 	Card dealt = randomCard(pack);
 	dealt.setVerso(false);
 	transfer(dealt, starter);
-	cribbageScorer.update(ScoringStrategyFactory.getInstance().getStarterScoringStrategy().getScores(starter), DEALER);
+	logger.update(ScoringStrategyFactory.getInstance().getStarterScoringStrategy().getScores(starter), DEALER, "STARTER");
 
 }
 
@@ -234,8 +241,8 @@ private void play() {
 				// Another "go" after previous one with no intervening cards
 				// lastPlayer gets 1 point for a "go"
 
-//				totalScoringInstances = ScoringStrategyFactory.getInstance().getGoScoringStrategy().getScores(s.segment);
-//				cribbageScorer.update(totalScoringInstances, s.lastPlayer);
+				totalScoringInstances = ScoringStrategyFactory.getInstance().getGoScoringStrategy().getScores(s.segment);
+				logger.update(totalScoringInstances, s.lastPlayer, "PLAY");
 
 				s.newSegment = true;
 			} else {
@@ -248,7 +255,7 @@ private void play() {
 			transfer(nextCard, s.segment);
 
 			totalScoringInstances = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("PLAY").getScores(s.segment);
-			cribbageScorer.update(totalScoringInstances, s.lastPlayer);
+			logger.update(totalScoringInstances, s.lastPlayer, "PLAY");
 
 			if (total(s.segment) == thirtyone) {
 				// lastPlayer gets 2 points for a 31
@@ -270,18 +277,18 @@ private void play() {
 }
 
 void showHandsCrib() {
-
+	String phase = "SHOW";
 	ArrayList<ScoringInstance> totalScoringInstances;
 	IScoringStrategy strategy = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("SHOW");
 
 	// score player 0 (non dealer)
 	totalScoringInstances = strategy.getScores(showHands[NONDEALER]);
-	cribbageScorer.update(totalScoringInstances, NONDEALER);
+	logger.update(totalScoringInstances, NONDEALER, phase);
 
 
 	// score player 1 (dealer)
 	totalScoringInstances = strategy.getScores(showHands[DEALER]);
-	cribbageScorer.update(totalScoringInstances, DEALER);
+	logger.update(totalScoringInstances, DEALER, phase);
 
 	// score crib (for dealer)
 	crib.reverse(false);
@@ -289,7 +296,7 @@ void showHandsCrib() {
 	crib.reverse(false);
 
 	totalScoringInstances = strategy.getScores(crib);
-	cribbageScorer.update(totalScoringInstances, DEALER);
+	logger.update(totalScoringInstances, DEALER, phase);
 
 }
 
@@ -299,7 +306,7 @@ void showHandsCrib() {
     cribbage = this;
     setTitle("Cribbage (V" + version + ") Constructed for UofM SWEN30006 with JGameGrid (www.aplu.ch)");
     setStatusText("Initializing...");
-    this.cribbageScorer = new Scorer(cribbage);
+    this.logger = new Logger(cribbage);
 
 	  Hand pack = deck.toHand(false);
 	  RowLayout layout = new RowLayout(starterLocation, 0);
@@ -316,6 +323,7 @@ void showHandsCrib() {
 	  duplicateHands();
 	  play();
 	  showHandsCrib();
+	  logger.close();
 
     addActor(new Actor("sprites/gameover.gif"), textLocation);
     setStatusText("Game over.");
