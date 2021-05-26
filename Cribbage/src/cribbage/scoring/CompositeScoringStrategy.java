@@ -11,4 +11,8 @@ public abstract class CompositeScoringStrategy implements IScoringStrategy {
 	}
 
 	public abstract ArrayList<ScoringInstance> getScores(Hand cards);
+
+
+
+
 }

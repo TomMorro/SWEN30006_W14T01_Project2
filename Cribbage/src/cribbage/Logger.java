@@ -28,12 +28,12 @@ public class Logger{
     public void update(ArrayList<ScoringInstance> scoringInstanceList, int playerNumber, String phase) {
         int score;
         for(ScoringInstance scoringInstance : scoringInstanceList){
-            System.out.println(scoringInstance.getRule()+ ":" + scoringInstance.getScoringCards());
+            System.out.println(scoringInstance.getRule()+ ":" + scoringInstance.getScoringHand());
             score = scorer.update(scoringInstance, playerNumber);
             log.print("score,P" + playerNumber + "," + score + "," + scoringInstance.getPoints()+ ","
                     + scoringInstance.getRule());
             if(phase.equals("SHOW")){
-                log.println("," + cribbageGame.canonical(scoringInstance.getScoringCards()));
+                log.println("," + cribbageGame.canonical(scoringInstance.getScoringHand()));
             }
             else {
             	log.println();

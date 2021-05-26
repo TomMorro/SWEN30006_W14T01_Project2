@@ -1,18 +1,19 @@
 package cribbage.scoring;
 
 import ch.aplu.jcardgame.Card;
+import ch.aplu.jcardgame.Hand;
 
 import java.util.ArrayList;
 
 public class ScoringInstance {
 
     private final String rule;
-    private ArrayList<Card> scoringCards;
+    private Hand scoringHand;
     private int points;
 
-    public ScoringInstance(String rule, ArrayList<Card> scoringCards, int points) {
+    public ScoringInstance(String rule, Hand scoringCards, int points) {
         this.rule = rule;
-        this.scoringCards = scoringCards;
+        this.scoringHand = scoringCards;
         this.points = points;
     }
 
@@ -20,8 +21,8 @@ public class ScoringInstance {
         return rule;
     }
 
-    public ArrayList<Card> getScoringCards() {
-        return scoringCards;
+    public Hand getScoringHand() {
+        return scoringHand;
     }
 
 
