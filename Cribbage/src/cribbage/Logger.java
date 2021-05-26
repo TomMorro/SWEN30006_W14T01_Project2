@@ -73,7 +73,7 @@ public class Logger{
         log.println("deal,P" + playerNumber +"," + cribbageGame.canonical(hand));
     }
 
-    public void logDiscard(ArrayList<Card> discards, int playerNumber){
+    public void logDiscard(Hand discards, int playerNumber){
         log.println("discard,P" + playerNumber +"," + cribbageGame.canonical(discards));
     }
     
@@ -84,7 +84,8 @@ public class Logger{
 
     	log.println("show,P" + playerNumber + "," + cribbageGame.canonical(starterCard) + "+" + cribbageGame.canonical(showHand));
 
-
+    	showHand.insert(starterCard, false);
+    	showHand.reverse(false);
 //
 //
 //    	for (int i = 1; i < showHand.getNumberOfCards(); i++) {

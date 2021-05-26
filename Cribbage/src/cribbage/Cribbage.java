@@ -58,13 +58,6 @@ public class Cribbage extends CardGame {
 		return "[" + h1.getCardList().stream().map(this::canonical).collect(Collectors.joining(",")) + "]";
     }
 
-    String canonical(ArrayList<Card> ac){
-		Hand h1 = new Hand(deck); // Clone to sort without changing the original hand
-		for (Card C: ac) h1.insert(C.getSuit(), C.getRank(), false);
-		h1.sort(Hand.SortType.POINTPRIORITY, false);
-		return "[" + h1.getCardList().stream().map(this::canonical).collect(Collectors.joining(",")) + "]";
-	}
-
 	class MyCardValues implements Deck.CardValues { // Need to generate a unique value for every card
 		public int[] values(Enum suit) {  // Returns the value for each card in the suit
 			return Stream.of(Rank.values()).mapToInt(r -> (((Rank) r).order-1)*(Suit.values().length)+suit.ordinal()).toArray();
@@ -187,10 +180,10 @@ private void discardToCrib() {
 	// crib.setTargetArea(cribTarget);
 	crib.draw();
 	for (IPlayer player: players) {
-		ArrayList<Card> discards = new ArrayList<>();
+		Hand discards = new Hand(deck);
 		for (int i = 0; i < nDiscards; i++) {
 			Card discard = player.discard();
-			discards.add(discard);
+			discards.insert(discard.clone(), false);
 			transfer(discard, crib);
 		}
 		logger.logDiscard(discards, player.id);

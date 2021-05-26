@@ -35,15 +35,12 @@ public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
         cards.insert(starter, false);
         cards.reverse(false);
 
-        int i = 0;
-
         ArrayList<ScoringInstance> compositeScores = new ArrayList<>();
 
         for (IScoringStrategy strategy : scoringStrategies) {
 
             compositeScores.addAll(strategy.getScores(cards));
 
-            i++;
         }
 
         return compositeScores;
