@@ -7,7 +7,7 @@ import cribbage.Cribbage;
 import java.util.ArrayList;
 
 public class JackScoringStrategy implements IScoringStrategy{
-
+    protected final rule = "jack";
 //    @Override
 //    public int getPoints(Hand cards) {
 //        // assume that card at first index is the starter card
@@ -44,7 +44,7 @@ public class JackScoringStrategy implements IScoringStrategy{
             for (Card card: jackedCards) {
                 h.insert(card, false);
             }
-            scores.add(new ScoringInstance("jack", h, total));
+            scores.add(new ScoringInstance(rule, h, total));
         }
         return scores;
     }
