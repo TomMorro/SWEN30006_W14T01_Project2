@@ -54,6 +54,8 @@ public class Logger{
     
     public void logPlay(Hand segment, int playerNumber) {
     	int total = 0;
+    	
+    	// Iterate through the cards to get total value for the segment
     	for (Card card : segment.getCardList()) {
     		Rank rank = (Cribbage.Rank) card.getRank();
     		total += rank.value;
@@ -63,12 +65,9 @@ public class Logger{
     }
 
     public void logGameStart(String player0, String player1){
-
         log.println("seed," + Cribbage.SEED);
-
         log.println(player0 + ",P0");
         log.println(player1 + ",P1");
-
     }
     
     public void logStarter(Card starter) {
@@ -84,7 +83,6 @@ public class Logger{
     }
     
     public void logShow(Hand showHand, int playerNumber) {
-
         Card starterCard = showHand.getFirst();
         showHand.removeFirst(false);
 
@@ -92,11 +90,5 @@ public class Logger{
 
     	showHand.insert(starterCard, false);
     	showHand.reverse(false);
-//
-//
-//    	for (int i = 1; i < showHand.getNumberOfCards(); i++) {
-//    		log.print(cribbageGame.canonical(showHand.get(i)));
-//    	}
-//    	log.println("]");
     }
 }

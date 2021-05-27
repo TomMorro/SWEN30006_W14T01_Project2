@@ -17,6 +17,7 @@ public class StarterScoringStrategy implements IScoringStrategy {
 	public ArrayList<ScoringInstance> getScores(Hand cards) {
 		ArrayList<ScoringInstance> starterScore = new ArrayList<>();
 
+		// Check if card in starter hand is Jack
 		if (cards.get(0).getRank() == Cribbage.Rank.JACK) {
 			ScoringInstance curScore = new ScoringInstance(rule, cards, jackScore);
 			starterScore.add(curScore);

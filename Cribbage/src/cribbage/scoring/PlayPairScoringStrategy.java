@@ -27,25 +27,6 @@ public class PlayPairScoringStrategy extends PairScoringStrategy{
         return false;
     }
 
-//    @Override
-//    public int getPoints(Hand cards) {
-//        ArrayList<Hand[]> allPairs = getAllPairs(cards);
-//        Card lastCard = cards.getLast();
-//        if(allPairs.size()>0){
-//            // works backward since we want to highest score to be returned
-//            for (int i = allPairs.size()-1; i > -1; i--) {
-//                // iterate through each list of pairs
-//                for(Hand pair : allPairs.get(i)){
-//                    // if the lastCard forms a pair, then we return
-//                    if(pair.contains(lastCard) && isValidPair(cards, pair)){
-//                        return pair.getNumberOfCards() * pair.getNumberOfCards() - pair.getNumberOfCards();
-//                    }
-//                }
-//            }
-//        }
-//        return 0;
-//    }
-
     @Override
     public ArrayList<ScoringInstance> getScores(Hand cards) {
         ArrayList<ScoringInstance> scores = new ArrayList<>();

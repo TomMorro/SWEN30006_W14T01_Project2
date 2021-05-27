@@ -1,12 +1,8 @@
 package cribbage.scoring;
 
-import ch.aplu.jcardgame.Card;
 import ch.aplu.jcardgame.Hand;
-import cribbage.Cribbage;
 
 import java.util.ArrayList;
-import java.lang.Math;
-import java.util.Arrays;
 
 public abstract class PairScoringStrategy implements IScoringStrategy{
     String rule = "pair";

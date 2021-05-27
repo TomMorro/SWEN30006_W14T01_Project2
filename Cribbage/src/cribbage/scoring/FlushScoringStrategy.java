@@ -34,13 +34,13 @@ public class FlushScoringStrategy implements IScoringStrategy {
                     tempHand.insert(starterCard, false);
                     tempHand.reverse(false);
 
-                    scoringInstance = new ScoringInstance( rule + "5", tempHand, 5);
+                    scoringInstance = new ScoringInstance(rule + 5, tempHand, 5);
                     retList.add(scoringInstance);
                     return retList;
 
                 } else {
 
-                    scoringInstance = new ScoringInstance(rule + "4", tempHand, 4);
+                    scoringInstance = new ScoringInstance(rule + 4, tempHand, 4);
                     retList.add(scoringInstance);
                     return retList;
                 }

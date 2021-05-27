@@ -21,7 +21,6 @@ public class ScoringStrategyFactory {
     			applicableStrategy = new CompositePlayScoringStrategy();
     			break;
             case "SHOW":
-
                 applicableStrategy = new CompositeShowScoringStrategy();
                 break;
     	}

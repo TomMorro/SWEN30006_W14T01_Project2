@@ -19,10 +19,13 @@ public class PlayValueScoringStrategy extends ValueScoringStrategy {
 		int total = 0;
 		ArrayList<ScoringInstance> valueScores = new ArrayList<>();
 		
+		// Iterate through the hand, keeping track of total score
 		for (Card card : cards.getCardList()) {
 			Rank rank = (Cribbage.Rank) card.getRank();
 			total += rank.value;
 		}
+		
+		// Check if the score of the hand equals one of the scoring targets
 		if (total == fifteen) {
 			ScoringInstance curScore = new ScoringInstance(super.fifteenRule, cards, super.value);
 			valueScores.add(curScore);

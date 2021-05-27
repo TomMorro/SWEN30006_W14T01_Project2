@@ -2,7 +2,6 @@ package cribbage.scoring;
 
 import ch.aplu.jcardgame.Card;
 import ch.aplu.jcardgame.Hand;
-import cribbage.Cribbage;
 import cribbage.Cribbage.Rank;
 
 import java.util.ArrayList;

@@ -44,7 +44,6 @@ public class Scorer{
     }
 
     private void updateScore(int player) {
-
         Cribbage.cribbage.removeActor(scoreActors[player]);
         scoreActors[player] = new TextActor(String.valueOf(scores[player]), Color.WHITE, cribbageGame.bgColor, cribbageGame.bigFont);
         Cribbage.cribbage.addActor(scoreActors[player], scoreLocations[player]);
