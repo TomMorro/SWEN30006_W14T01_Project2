@@ -5,7 +5,7 @@ import ch.aplu.jcardgame.Hand;
 import java.util.ArrayList;
 
 public abstract class PairScoringStrategy implements IScoringStrategy{
-    String rule = "pair";
+    protected final String rule = "pair";
     
     public ArrayList<Hand[]> getAllPairs(Hand cards){
         ArrayList<Hand[]> allPairs = new ArrayList<>();

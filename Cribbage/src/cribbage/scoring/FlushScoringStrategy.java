@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class FlushScoringStrategy implements IScoringStrategy {
 
-    private final String rule = "flush";
+    protected final String rule = "flush";
 
     @Override
     public ArrayList<ScoringInstance> getScores(Hand cards) {

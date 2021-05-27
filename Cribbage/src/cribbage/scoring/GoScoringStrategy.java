@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class GoScoringStrategy implements IScoringStrategy{
 
-    private final String rule = "go";
+    protected final String rule = "go";
 
     @Override
     public ArrayList<ScoringInstance> getScores(Hand cards) {
