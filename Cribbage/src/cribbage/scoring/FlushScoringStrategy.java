@@ -19,19 +19,22 @@ public class FlushScoringStrategy implements IScoringStrategy {
         Card starterCard = cards.getFirst();
         Hand newHand = new Hand(starterCard.getDeck());
 
-        for (Card card : cards.getCardList()) {
-            newHand.insert(card.clone(), false);
+        for (int i = 1; i < cards.getNumberOfCards(); i++) {
+            newHand.insert(cards.get(i).clone(), false);
         }
 
         for (Cribbage.Suit suit : Cribbage.Suit.values()) {
 
-            Hand tempHand = cards.extractCardsWithSuit(suit);
+            Hand tempHand = newHand.extractCardsWithSuit(suit);
 
             if (tempHand.getNumberOfCards() >= 4) {
+
+                System.out.println(starterCard.getSuit() + ": " + tempHand.getFirst().getSuit());
+
                 if (starterCard.getSuit() == tempHand.get(0).getSuit()) {
 
                     tempHand.reverse(false);
-                    tempHand.insert(starterCard, false);
+                    tempHand.insert(starterCard.clone(), false);
                     tempHand.reverse(false);
 
                     scoringInstance = new ScoringInstance(rule + 5, tempHand, 5);
