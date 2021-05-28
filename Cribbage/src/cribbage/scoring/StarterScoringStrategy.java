@@ -6,7 +6,7 @@ import ch.aplu.jcardgame.Hand;
 import cribbage.Cribbage;
 
 public class StarterScoringStrategy implements IScoringStrategy {
-	private int jackScore = 2;
+	protected int jackScore = 2;
 	protected final String rule = "starter";
 
 	public StarterScoringStrategy() {
