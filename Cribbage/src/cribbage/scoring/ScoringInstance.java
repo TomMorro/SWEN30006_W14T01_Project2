@@ -1,6 +1,7 @@
 package cribbage.scoring;
 
 import ch.aplu.jcardgame.Hand;
+import cribbage.Cribbage;
 
 public class ScoringInstance implements Comparable<ScoringInstance> {
 
@@ -45,17 +46,20 @@ public class ScoringInstance implements Comparable<ScoringInstance> {
         int i = 0;
         int res;
 
-        while(i < Math.min(this.scoringHand.getNumberOfCards(), o.scoringHand.getNumberOfCards())){
+//        while(i < Math.min(this.scoringHand.getNumberOfCards(), o.scoringHand.getNumberOfCards())){
+//
+//
+//
+//
+//            if ((res = this.scoringHand.get(i). compareTo(o.scoringHand.get(i))) != 0){
+//
+//                return res;
+//
+//            }
+//            i++;
+//        }
 
-            if ((res = this.scoringHand.get(i).compareTo(o.scoringHand.get(i))) != 0){
+        return Cribbage.canonical(this.scoringHand).compareTo(Cribbage.canonical(o.scoringHand));
 
-                return res;
-
-            }
-            i++;
-        }
-
-
-        return 0;
     }
 }

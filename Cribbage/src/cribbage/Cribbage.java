@@ -38,9 +38,9 @@ public class Cribbage extends CardGame {
 	/*
 	Canonical String representations of Suit, Rank, Card, and Hand
 	*/
-	String canonical(Suit s) { return s.toString().substring(0, 1); }
+	static String canonical(Suit s) { return s.toString().substring(0, 1); }
 
-	String canonical(Rank r) {
+	static String canonical(Rank r) {
 		switch (r) {
 			case ACE:case KING:case QUEEN:case JACK:case TEN:
 				return r.toString().substring(0, 1);
@@ -49,13 +49,13 @@ public class Cribbage extends CardGame {
 		}
 	}
 
-    String canonical(Card c) { return canonical((Rank) c.getRank()) + canonical((Suit) c.getSuit()); }
+    static String canonical(Card c) { return canonical((Rank) c.getRank()) + canonical((Suit) c.getSuit()); }
 
-    String canonical(Hand h) {
-		Hand h1 = new Hand(deck); // Clone to sort without changing the original hand
+    public static String canonical(Hand h) {
+		Hand h1 = new Hand(h.getFirst().getDeck()); // Clone to sort without changing the original hand
 		for (Card C: h.getCardList()) h1.insert(C.getSuit(), C.getRank(), false);
 		h1.sort(Hand.SortType.POINTPRIORITY, false);
-		return "[" + h1.getCardList().stream().map(this::canonical).collect(Collectors.joining(",")) + "]";
+		return "[" + h1.getCardList().stream().map(Cribbage::canonical).collect(Collectors.joining(",")) + "]";
     }
 
 	class MyCardValues implements Deck.CardValues { // Need to generate a unique value for every card
