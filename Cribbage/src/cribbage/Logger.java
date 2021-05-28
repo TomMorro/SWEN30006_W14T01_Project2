@@ -34,7 +34,7 @@ public class Logger{
 
 
         for(ScoringInstance scoringInstance : scoringInstanceList){
-            // System.out.println(scoringInstance.getRule()+ ":" + scoringInstance.getScoringHand());
+            System.out.println(scoringInstance.getRule()+ ":" + scoringInstance.getScoringHand());
             score = scorer.update(scoringInstance, playerNumber);
             log.print("score,P" + playerNumber + "," + score + "," + scoringInstance.getPoints()+ ","
                     + scoringInstance.getRule());

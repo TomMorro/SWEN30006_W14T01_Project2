@@ -38,9 +38,9 @@ public class Cribbage extends CardGame {
 	/*
 	Canonical String representations of Suit, Rank, Card, and Hand
 	*/
-	String canonical(Suit s) { return s.toString().substring(0, 1); }
+	static String canonical(Suit s) { return s.toString().substring(0, 1); }
 
-	String canonical(Rank r) {
+	static String canonical(Rank r) {
 		switch (r) {
 			case ACE:case KING:case QUEEN:case JACK:case TEN:
 				return r.toString().substring(0, 1);
@@ -49,13 +49,13 @@ public class Cribbage extends CardGame {
 		}
 	}
 
-    String canonical(Card c) { return canonical((Rank) c.getRank()) + canonical((Suit) c.getSuit()); }
+    static String canonical(Card c) { return canonical((Rank) c.getRank()) + canonical((Suit) c.getSuit()); }
 
-    String canonical(Hand h) {
-		Hand h1 = new Hand(deck); // Clone to sort without changing the original hand
+    public static String canonical(Hand h) {
+		Hand h1 = new Hand(h.getFirst().getDeck()); // Clone to sort without changing the original hand
 		for (Card C: h.getCardList()) h1.insert(C.getSuit(), C.getRank(), false);
 		h1.sort(Hand.SortType.POINTPRIORITY, false);
-		return "[" + h1.getCardList().stream().map(this::canonical).collect(Collectors.joining(",")) + "]";
+		return "[" + h1.getCardList().stream().map(Cribbage::canonical).collect(Collectors.joining(",")) + "]";
     }
 
 	class MyCardValues implements Deck.CardValues { // Need to generate a unique value for every card
@@ -180,6 +180,8 @@ private void discardToCrib() {
 	// crib.setTargetArea(cribTarget);
 	crib.draw();
 	for (IPlayer player: players) {
+		
+		// Create a discards hand in order to log
 		Hand discards = new Hand(deck);
 		for (int i = 0; i < nDiscards; i++) {
 			Card discard = player.discard();
@@ -200,6 +202,8 @@ private void starter(Hand pack) {
 	Card dealt = randomCard(pack);
 	dealt.setVerso(false);
 	transfer(dealt, starter);
+	
+	// Log the starter and score the starter card
 	logger.logStarter(starter.getFirst());
 	logger.update(ScoringStrategyFactory.getInstance().getStarterScoringStrategy().getScores(starter), DEALER, "STARTER");
 
@@ -230,7 +234,7 @@ class Segment {
 private void play() {
 	final int thirtyone = 31;
 	List<Hand> segments = new ArrayList<>();
-	int currentPlayer = 0; // Player 1 is dealer
+	int currentPlayer = 0, lastCardPlayer = -1; // Player 1 is dealer
 	Segment s = new Segment();
 	s.reset(segments);
 
@@ -243,7 +247,6 @@ private void play() {
 			if (s.go) {
 				// Another "go" after previous one with no intervening cards
 				// lastPlayer gets 1 point for a "go"
-
 				totalScoringInstances = ScoringStrategyFactory.getInstance().getGoScoringStrategy().getScores(s.segment);
 				logger.update(totalScoringInstances, s.lastPlayer, "PLAY");
 
@@ -254,10 +257,12 @@ private void play() {
 			}
 			currentPlayer = (currentPlayer+1) % 2;
 		} else {
-			s.lastPlayer = currentPlayer; // last Player to play a card in this segment
+			s.lastPlayer = currentPlayer;// last Player to play a card in this segment
+			lastCardPlayer = currentPlayer;
 			transfer(nextCard, s.segment);
 			logger.logPlay(s.segment, s.lastPlayer);
 
+			// Update the score and log
 			totalScoringInstances = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("PLAY").getScores(s.segment);
 			logger.update(totalScoringInstances, s.lastPlayer, "PLAY");
 
@@ -276,8 +281,12 @@ private void play() {
 			segments.add(s.segment);
 			s.reset(segments);
 		}
-		// Potentially call updateScore here 
 	}
+	
+	// Log a go for the last card played
+	totalScoringInstances = ScoringStrategyFactory.getInstance().getGoScoringStrategy().getScores(new Hand(deck));
+	logger.update(totalScoringInstances, lastCardPlayer, "PLAY");
+
 }
 
 void showHandsCrib() {
@@ -285,18 +294,18 @@ void showHandsCrib() {
 	ArrayList<ScoringInstance> totalScoringInstances;
 	IScoringStrategy strategy = ScoringStrategyFactory.getInstance().getCompositeScoringStrategy("SHOW");
 
-	// score player 0 (non dealer)
+	// Score player 0 (non dealer)
 	logger.logShow(showHands[NONDEALER], NONDEALER);
 	totalScoringInstances = strategy.getScores(showHands[NONDEALER]);
 	logger.update(totalScoringInstances, NONDEALER, phase);
 
 
-	// score player 1 (dealer)
+	// Score player 1 (dealer)
 	logger.logShow(showHands[DEALER], DEALER);
 	totalScoringInstances = strategy.getScores(showHands[DEALER]);
 	logger.update(totalScoringInstances, DEALER, phase);
 
-	// score crib (for dealer)
+	// Score crib (for dealer)
 	crib.reverse(false);
 	crib.insert(starter.getFirst().clone(), false);
 	crib.reverse(false);
@@ -342,6 +351,8 @@ void showHandsCrib() {
 	  int i = 0;
 	  showHands[NONDEALER] = new Hand(deck);
 	  showHands[DEALER] = new Hand(deck);
+	  
+	  // For each hand duplicate and add the starter card
 	  for (Hand hand: showHands) {
 		  hand.insert(starter.getFirst().clone(), false);
 		  for(Card card : hands[i].getCardList()){
@@ -349,16 +360,6 @@ void showHandsCrib() {
 		  }
 		  i++;
 	  }
-	  System.out.println("Non Dealer Hand");
-	  System.out.println(showHands[NONDEALER]);
-
-	  System.out.println("-----");
-	  System.out.println("Dealer Hand");
-	  System.out.println(showHands[DEALER]);
-
-	  System.out.println("-----");
-	  System.out.println("Crib");
-	  System.out.println(crib);
   }
 
 

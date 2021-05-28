@@ -12,11 +12,13 @@ public class JackScoringStrategy implements IScoringStrategy{
     @Override
     public ArrayList<ScoringInstance> getScores(Hand cards) {
         ArrayList<ScoringInstance> scores = new ArrayList<>();
-        // assume that card at first index is the starter card
+        
+        // Get the suit of the starter card
         ArrayList<Card> cardList = cards.getCardList();
         Cribbage.Suit starterSuit = (Cribbage.Suit) cardList.get(0).getSuit();
         ArrayList<Card> jackedCards = new ArrayList<>();
-        // assume that jack scoring stacks
+        
+        // Find Jacks with same suit as starter card
         int total = 0;
         for(int i = 1; i < cardList.size(); i++){
             if(cardList.get(i).getRank().equals(Cribbage.Rank.JACK) && cardList.get(i).getSuit().equals(starterSuit) ){
@@ -24,6 +26,8 @@ public class JackScoringStrategy implements IScoringStrategy{
                 jackedCards.add(cardList.get(i));
             }
         }
+        
+        // If any such scoring exists, add it to scores
         if(total>0){
             Hand h = new Hand(jackedCards.get(0).getDeck());
             for (Card card: jackedCards) {

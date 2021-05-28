@@ -16,6 +16,8 @@ public class ScoringStrategyFactory {
     
     public IScoringStrategy getCompositeScoringStrategy(String phase) {
     	IScoringStrategy applicableStrategy = null;
+    	
+    	// Switch based on the phase of the game
     	switch(phase) {
     		case "PLAY":
     			applicableStrategy = new CompositePlayScoringStrategy();

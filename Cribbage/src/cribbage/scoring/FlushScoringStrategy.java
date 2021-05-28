@@ -17,8 +17,9 @@ public class FlushScoringStrategy implements IScoringStrategy {
         ScoringInstance scoringInstance;
 
         Card starterCard = cards.getFirst();
+        
+        // Get a new hand for storing the flush
         Hand newHand = new Hand(starterCard.getDeck());
-
         for (int i = 1; i < cards.getNumberOfCards(); i++) {
             newHand.insert(cards.get(i).clone(), false);
         }
@@ -28,9 +29,7 @@ public class FlushScoringStrategy implements IScoringStrategy {
             Hand tempHand = newHand.extractCardsWithSuit(suit);
 
             if (tempHand.getNumberOfCards() >= 4) {
-
-                System.out.println(starterCard.getSuit() + ": " + tempHand.getFirst().getSuit());
-
+            	// Deal with a flush 5
                 if (starterCard.getSuit() == tempHand.get(0).getSuit()) {
 
                     tempHand.reverse(false);
@@ -41,7 +40,9 @@ public class FlushScoringStrategy implements IScoringStrategy {
                     retList.add(scoringInstance);
                     return retList;
 
-                } else {
+                } 
+                // Deal with a flush 4
+                else {
 
                     scoringInstance = new ScoringInstance(rule + 4, tempHand, 4);
                     retList.add(scoringInstance);
