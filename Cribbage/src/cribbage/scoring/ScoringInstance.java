@@ -43,22 +43,7 @@ public class ScoringInstance implements Comparable<ScoringInstance> {
         this.scoringHand.sort(Hand.SortType.POINTPRIORITY, false);
         o.scoringHand.sort(Hand.SortType.POINTPRIORITY, false);
 
-        int i = 0;
-        int res;
-
-//        while(i < Math.min(this.scoringHand.getNumberOfCards(), o.scoringHand.getNumberOfCards())){
-//
-//
-//
-//
-//            if ((res = this.scoringHand.get(i). compareTo(o.scoringHand.get(i))) != 0){
-//
-//                return res;
-//
-//            }
-//            i++;
-//        }
-
+        // Else compare on the basis of the hand
         return Cribbage.canonical(this.scoringHand).compareTo(Cribbage.canonical(o.scoringHand));
 
     }

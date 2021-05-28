@@ -20,17 +20,12 @@ public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
 
     @Override
     public ArrayList<ScoringInstance> getScores(Hand cards) {
-
-        // get starter card located at the first index
-        Card starter = cards.getFirst();
-
-        // remove starter before sorting cards
+        // Remove starter before sorting cards
+    	Card starter = cards.getFirst();
         cards.removeFirst(false);
-
-        // sort
         cards.sort(cards.getSortType(), false);
 
-        // a bit of a hacky way to insert the starter at the first index again
+        // Re-insert the starter card
         cards.reverse(false);
         cards.insert(starter, false);
         cards.reverse(false);
@@ -38,9 +33,7 @@ public class CompositeShowScoringStrategy extends CompositeScoringStrategy{
         ArrayList<ScoringInstance> compositeScores = new ArrayList<>();
 
         for (IScoringStrategy strategy : scoringStrategies) {
-
             compositeScores.addAll(strategy.getScores(cards));
-
         }
 
         return compositeScores;

@@ -11,14 +11,15 @@ public abstract class PairScoringStrategy implements IScoringStrategy{
         ArrayList<Hand[]> allPairs = new ArrayList<>();
         boolean isInAllPairs;
 
-        // get pair4
+        // Get pair4
         Hand[] pair4s = cards.extractQuads();
         if(pair4s.length > 0) allPairs.add(pair4s);
 
-        // get pair3
+        // Get pair3
         Hand[] extractedPair3s = cards.extractTrips();
         ArrayList<Hand> finalPair3sList = new ArrayList<>();
-        // we want to make sure that these pair3s are not in allPairs already
+        
+        // Make sure that these pair3s are not in allPairs already
         for(Hand pair3 : extractedPair3s){
             isInAllPairs = false;
             for(Hand pair4 : pair4s){
@@ -34,10 +35,10 @@ public abstract class PairScoringStrategy implements IScoringStrategy{
         allPairs.add(pair3s);
 
 
-        // get pair2
+        // Get pair2
         Hand[] extractedPair2s = cards.extractPairs();
         ArrayList<Hand> finalPair2sList = new ArrayList<>();
-        // make sure that pair2 is not in allPairs already
+        // Make sure that pair2 is not in allPairs already
         for (Hand pair2 : extractedPair2s){
             isInAllPairs = false;
             for(Hand pair4 : pair4s){
