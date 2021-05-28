@@ -15,6 +15,8 @@ public class ShowRunScoringStrategy extends RunScoringStrategy{
         Hand[] fiveSequence = cards.extractSequences(5);
         for (Hand h: fiveSequence){
 
+            
+
             ScoringInstance curScore = new ScoringInstance(super.rule + 5, h, 5);
             runScores.add(curScore);
         }

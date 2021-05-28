@@ -276,8 +276,12 @@ private void play() {
 			segments.add(s.segment);
 			s.reset(segments);
 		}
-		// Potentially call updateScore here 
+		// Potentially call updateScore here
 	}
+
+	totalScoringInstances = ScoringStrategyFactory.getInstance().getGoScoringStrategy().getScores(new Hand(deck));
+	logger.update(totalScoringInstances, s.lastPlayer, "PLAY");
+
 }
 
 void showHandsCrib() {

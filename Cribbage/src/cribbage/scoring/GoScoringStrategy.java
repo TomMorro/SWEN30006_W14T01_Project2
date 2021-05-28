@@ -11,7 +11,7 @@ public class GoScoringStrategy implements IScoringStrategy{
     @Override
     public ArrayList<ScoringInstance> getScores(Hand cards) {
 
-        ScoringInstance scoringInstance = new ScoringInstance(rule, new Hand(cards.getFirst().getDeck()), 1);
+        ScoringInstance scoringInstance = new ScoringInstance(rule, cards, 1);
 
         ArrayList<ScoringInstance> retList = new ArrayList<>();
         retList.add(scoringInstance);
