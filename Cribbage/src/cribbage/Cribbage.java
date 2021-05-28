@@ -230,7 +230,7 @@ class Segment {
 private void play() {
 	final int thirtyone = 31;
 	List<Hand> segments = new ArrayList<>();
-	int currentPlayer = 0; // Player 1 is dealer
+	int currentPlayer = 0, lastCardPlayer = -1; // Player 1 is dealer
 	Segment s = new Segment();
 	s.reset(segments);
 
@@ -243,7 +243,6 @@ private void play() {
 			if (s.go) {
 				// Another "go" after previous one with no intervening cards
 				// lastPlayer gets 1 point for a "go"
-
 				totalScoringInstances = ScoringStrategyFactory.getInstance().getGoScoringStrategy().getScores(s.segment);
 				logger.update(totalScoringInstances, s.lastPlayer, "PLAY");
 
@@ -254,7 +253,8 @@ private void play() {
 			}
 			currentPlayer = (currentPlayer+1) % 2;
 		} else {
-			s.lastPlayer = currentPlayer; // last Player to play a card in this segment
+			s.lastPlayer = currentPlayer;// last Player to play a card in this segment
+			lastCardPlayer = currentPlayer;
 			transfer(nextCard, s.segment);
 			logger.logPlay(s.segment, s.lastPlayer);
 
@@ -280,7 +280,7 @@ private void play() {
 	}
 
 	totalScoringInstances = ScoringStrategyFactory.getInstance().getGoScoringStrategy().getScores(new Hand(deck));
-	logger.update(totalScoringInstances, s.lastPlayer, "PLAY");
+	logger.update(totalScoringInstances, lastCardPlayer, "PLAY");
 
 }
 
